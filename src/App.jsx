@@ -1,19 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AppLayout from "./ui/AppLayout";
 import Home from "./pages/user/home/Home";
 import RegisterForm from "./pages/user/form/RegisterForm";
-import AppLayout from "./ui/AppLayout";
 import AdminLayout from "./ui/AdminLayout";
+import AdminReport from "./pages/admin/Report";
+import AdminSingleReport from "./pages/admin/SingleReport";
 import Authentication from "./pages/auth/Authentication";
 
 function App() {
-  const role = "user";
+  const role = "admin";
   return (
     <Router>
       <Routes>
         {role === "admin" ? (
           <Route path="/" element={<AdminLayout />}>
-            {/* <Route path="/" element={<Home />} />
-            <Route path="/registerForm" element={<RegisterForm />} /> */}
+            <Route path="/report" element={<AdminReport />} />
+            <Route path={`/report/:reportId`} element={<AdminSingleReport />} />
           </Route>
         ) : (
           <Route path="/" element={<AppLayout />}>

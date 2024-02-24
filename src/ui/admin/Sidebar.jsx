@@ -40,7 +40,7 @@ function Sidebar() {
             </svg>
             Home
           </Link>
-          <Link to="/registerForm" className="text-xl flex gap-2 items-center">
+          <Link to="/report" className="text-xl flex gap-2 items-center">
             <svg
               fill="#000000"
               width="20px"
