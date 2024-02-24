@@ -1,11 +1,11 @@
 import React from "react";
-import Input from "../../ui/shared/Input";
-import Button from "../../ui/shared/Button";
+import Input from "../../../ui/shared/Input";
+import Button from "../../../ui/shared/Button";
 
 function RegisterForm() {
   return (
-    <div className="p-10">
-      <form className="max-w-5xl mx-auto bg-white flex flex-col items-center p-10 gap-4">
+    <div className="p-10 xl:px-0">
+      <form className="max-w-7xl mx-auto bg-white flex flex-col items-center p-10 gap-4">
         <h1 className="font-bold text-2xl md:text-4xl mb-4 md:mb-10">
           Register Complaint
         </h1>
