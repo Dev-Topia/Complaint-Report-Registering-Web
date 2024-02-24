@@ -1,19 +1,17 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import BottomNavigation from "./BottomNavigation";
-import Sidebar from "./Sidebar";
+import Header from "./user/Header";
+import Footer from "./user/Footer";
 
 function AppLayout() {
-	return (
-		<div className="flex flex-col xl:flex-row">
-			<Sidebar />
-			<main className="w-full xl:ml-[230px]">
-				<Header />
-				<Outlet />
-			</main>
-			<BottomNavigation />
-		</div>
-	);
+  return (
+    <>
+      <Header />
+      <main className="max-w-7xl mx-auto h-[89vh]">
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  );
 }
 
 export default AppLayout;
