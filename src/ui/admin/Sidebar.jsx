@@ -5,9 +5,9 @@ function Sidebar() {
   return (
     <aside className="hidden xl:block sticky h-screen top-0 left-0 bottom-0 bg-white border-r-2">
       <div className="w-[230px] p-4 h-screen flex flex-col gap-4">
-        <div className="w-full flex justify-center">
+        <Link to="/" className="w-full flex justify-center">
           <img src={Logo} alt="Logo" className="w-28" />
-        </div>
+        </Link>
         <dix className="flex flex-col text-lg font-semibold gap-4">
           <Link to="/" className="font-semibold flex gap-2 items-center">
             <svg
