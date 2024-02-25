@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <aside className="hidden xl:block sticky h-screen top-0 left-0 bottom-0 bg-white">
-      <div className="w-[230px] p-4 md:p-10 h-screen flex flex-col gap-10">
+    <aside className="hidden xl:block sticky h-screen top-0 left-0 bottom-0 bg-white border-r-2">
+      <div className="w-[230px] p-4 h-screen flex flex-col gap-4">
         <div className="w-full flex justify-center">
           <img src={Logo} alt="Logo" className="w-28" />
         </div>
-        <dix className="flex flex-col text-lg font-semibold gap-10">
-          <Link to="/" className="text-xl flex gap-2 items-center">
+        <dix className="flex flex-col text-lg font-semibold gap-4">
+          <Link to="/" className="font-semibold flex gap-2 items-center">
             <svg
               width="24px"
               height="24px"
@@ -40,7 +40,7 @@ function Sidebar() {
             </svg>
             Home
           </Link>
-          <Link to="/report" className="text-xl flex gap-2 items-center">
+          <Link to="/report" className="font-semibold flex gap-2 items-center">
             <svg
               fill="#000000"
               width="20px"
