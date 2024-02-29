@@ -1,4 +1,38 @@
-import Stepper from "../../ui/shared/Stepper";
+// import Stepper from "../../ui/shared/Stepper";
+import { useState } from "react";
+
+function Stepper() {
+	const steps = ["Posted", "Review", "Fixing", "Finished"];
+	const [currentStep, setCurrentStep] = useState(1);
+	// const [complete, setComplete] = useState(false);
+	return (
+		<>
+			<div className="flex justify-between items-center">
+				{steps.map((step, i) => (
+					<div key={i} className="flex flex-col items-center ">
+						<div
+							className={`w-10 h-10 flex items-center justify-center z-10 relative bg-${
+								i === currentStep ? "green-400" : "[#D9D9D9]"
+							} rounded-full font-semibold text-white`}
+						>
+							{i + 1}
+						</div>
+						{i < steps.length - 1 && (
+							<div
+								className={`w-2 h-6 bg-${
+									i < currentStep - 1 ? "green-400" : "[#D9D9D9]"
+								} ${
+									i === currentStep - 1 ? "border-b-2 border-green-400" : ""
+								}`}
+							></div>
+						)}
+						<p>{step}</p>
+					</div>
+				))}
+			</div>
+		</>
+	);
+}
 
 function Report() {
 	return (
