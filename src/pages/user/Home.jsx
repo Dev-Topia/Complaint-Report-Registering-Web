@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ReportCard from "../../../ui/user/ReportCard";
+import ReportCard from "../../ui/user/ReportCard";
 
 function Home() {
   return (

@@ -1,16 +1,15 @@
-import React from "react";
-import Input from "../../../ui/shared/Input";
-import Button from "../../../ui/shared/Button";
-import Logo from "../../../assets/Logo.png";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../ui/shared/Input";
+import Button from "../../ui/shared/Button";
+import Logo from "../../assets/Logo.png";
 
 function ForgetPassword() {
   const onSubmit = (e) => {
     e.preventDefault();
   };
   const Navigate = useNavigate();
-  const NavigateLogin = () => {
-    Navigate("/");
+  const navigateToSignIn = () => {
+    Navigate("/signin");
   };
   return (
     <div className="h-screen flex flex-col justify-center items-center p-4 md:p-0">
@@ -31,10 +30,10 @@ function ForgetPassword() {
           isRequired={true}
         />
         <div className="flex gap-4">
-          <Button onClick={NavigateLogin} customClass="md:w-full">
+          <Button onClick={navigateToSignIn} customClass="md:w-full">
             Cancel
           </Button>
-          <Button customClass="md:w-full">Sent</Button>
+          <Button customClass="md:w-full">Send</Button>
         </div>
       </form>
     </div>

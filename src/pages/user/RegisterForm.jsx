@@ -1,6 +1,6 @@
 import React from "react";
-import Input from "../../../ui/shared/Input";
-import Button from "../../../ui/shared/Button";
+import Input from "../../ui/shared/Input";
+import Button from "../../ui/shared/Button";
 
 function RegisterForm() {
   return (
@@ -62,7 +62,7 @@ function RegisterForm() {
             type="file"
             onChange={onchange}
             isRequired={true}
-            customClass="h-[200px] bg-[#ffffff]"
+            // customClass="h-[200px] bg-[#ffffff]"
           />
         </div>
         <Button type="submit">Submit</Button>

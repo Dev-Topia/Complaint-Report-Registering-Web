@@ -1,7 +1,7 @@
 import ReportCard from "../../ui/admin/ReportCard";
 import ReportContent from "../../ui/admin/ReportContent";
 
-function Report() {
+function AdminReport() {
   return (
     <div className="flex">
       <div className="w-full md:w-1/2 flex flex-col xl:overflow-y-auto xl:h-[90vh] gap-4 p-4">
@@ -20,4 +20,4 @@ function Report() {
   );
 }
 
-export default Report;
+export default AdminReport;

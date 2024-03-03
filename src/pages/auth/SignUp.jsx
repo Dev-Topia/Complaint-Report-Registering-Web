@@ -1,9 +1,10 @@
 import { useState } from "react";
-import Logo from "../../../assets/Logo.png";
-import Input from "../../../ui/shared/Input";
-import Button from "../../../ui/shared/Button";
+import { Link } from "react-router-dom";
+import Logo from "../../assets/Logo.png";
+import Input from "../../ui/shared/Input";
+import Button from "../../ui/shared/Button";
 
-function SignUp({ setAuthOption, setLoading }) {
+function SignUp({ setLoading }) {
   const [showPassword, setShowPassword] = useState(false);
   const [inputData, setInputData] = useState({
     firstName: "",
@@ -92,12 +93,12 @@ function SignUp({ setAuthOption, setLoading }) {
         </Button>
         <p className="text-center">
           Already have account?{" "}
-          <button
-            onClick={() => setAuthOption("Sign In")}
+          <Link
+            to="/signin"
             className="text-gray-400 hover:text-[#227F4B] hover:underline"
           >
             Sign In
-          </button>
+          </Link>
         </p>
       </form>
     </div>

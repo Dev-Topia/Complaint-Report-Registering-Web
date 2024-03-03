@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import Logo from "../../../assets/Logo.png";
-import Input from "../../../ui/shared/Input";
-import Button from "../../../ui/shared/Button";
+import Logo from "../../assets/Logo.png";
+import Input from "../../ui/shared/Input";
+import Button from "../../ui/shared/Button";
 
-function SignIn({ setAuthOption }) {
+function SignIn() {
   const onSubmit = (e) => {
     e.preventDefault();
   };
@@ -36,23 +36,23 @@ function SignIn({ setAuthOption }) {
             isRequired={true}
           />
         </div>
-        <button
-          onClick={() => setAuthOption("Forget Password")}
+        <Link
+          to="/forgetpassword"
           className="text-right text-gray-400 hover:text-[#227F4B] hover:underline"
         >
           Forget Password
-        </button>
+        </Link>
 
         <Button customClass="md:w-full">LogIn</Button>
 
         <p className="text-center">
           Don't Have Account?{" "}
-          <button
-            onClick={() => setAuthOption("Sign Up")}
+          <Link
+            to="/signup"
             className="text-gray-400 hover:text-[#227F4B] hover:underline"
           >
             Sign Up
-          </button>
+          </Link>
         </p>
       </form>
     </div>
