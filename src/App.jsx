@@ -8,6 +8,7 @@ import AdminReport from "./pages/admin/AdminReport";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import ForgetPassword from "./pages/auth/ForgetPassword";
+import Profile from "./pages/user/profile";
 import SingleReport from "./pages/user/SingleReport";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/report/:id" element={<SingleReport />} />
           </Route>
         )}
+        <Route path="/profile" element={<Profile />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
