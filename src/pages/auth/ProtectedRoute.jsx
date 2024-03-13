@@ -1,7 +1,10 @@
-import React from "react";
+import { Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 
 function ProtectedRoute() {
-  return <div>ProtectedRoute</div>;
+  const token = Cookies.get("token");
+  return token ? <Outlet /> : <Navigate to="/signin" />;
 }
 
 export default ProtectedRoute;

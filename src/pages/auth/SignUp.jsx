@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signUpAccount } from "../../services/auth";
 import Logo from "../../assets/Logo.png";
 import Input from "../../ui/shared/Input";
 import Button from "../../ui/shared/Button";
 
 function SignUp({ setLoading }) {
-  const [showPassword, setShowPassword] = useState(false);
   const [inputData, setInputData] = useState({
     firstName: "",
     lastName: "",
-    gender: "",
-    schoolName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -22,14 +20,19 @@ function SignUp({ setLoading }) {
       [e.target.id]: e.target.value,
     }));
   };
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = await signUpAccount(inputData);
+    if (res.status === 200) {
+      navigate("/signin");
+    }
   };
   return (
     <div className="h-screen flex justify-center items-center p-4 md:p-0">
       <form
         onSubmit={handleSubmit}
-        className="w-full md:w-[500px] bg-white flex flex-col p-10 gap-4"
+        className="w-full md:w-[500px] bg-white border border-gray-200 shadow flex flex-col p-10 gap-4"
       >
         <div className="flex flex-col items-center">
           <img src={Logo} alt="Logo" width={100} />
@@ -38,34 +41,26 @@ function SignUp({ setLoading }) {
         <div className="flex gap-4">
           <Input
             title="First Name"
-            id="firstname"
+            id="firstName"
             placeholder="FirstName"
-            onChange={onchange}
+            onChange={onChange}
             type="text"
             isRequired={true}
           />
           <Input
             title="Last Name"
-            id="lastname"
+            id="lastName"
             placeholder="LastName"
-            onChange={onchange}
+            onChange={onChange}
             type="text"
             isRequired={true}
           />
-        </div>
-        <div className="flex flex-col gap-4">
-          <label htmlFor="gender">Gender</label>
-          <select class="form-select block rounded-xl w-full py-2 px-4 border-2 ">
-            <option>Select</option>
-            <option>Male</option>
-            <option>Female</option>
-          </select>
         </div>
         <Input
           title="Email"
           id="email"
           placeholder="example@gmail.com"
-          onChange={onchange}
+          onChange={onChange}
           type="email"
           isRequired={true}
         />
@@ -74,16 +69,16 @@ function SignUp({ setLoading }) {
           title="Password"
           id="password"
           placeholder="********"
-          onChange={onchange}
+          onChange={onChange}
           type="password"
           isRequired={true}
         />
 
         <Input
           title="Confirm Password"
-          id="confirmpassword"
+          id="confirmPassword"
           placeholder="********"
-          onChange={onchange}
+          onChange={onChange}
           type="password"
           isRequired={true}
         />

@@ -15,7 +15,7 @@ function ForgetPassword() {
     <div className="h-screen flex flex-col justify-center items-center p-4 md:p-0">
       <form
         onSubmit={onSubmit}
-        className="w-full md:w-[500px] bg-white p-10 flex flex-col gap-4"
+        className="w-full md:w-[500px] bg-white border border-gray-200 shadow p-10 flex flex-col gap-4"
       >
         <div className="flex flex-col items-center">
           <img src={Logo} alt="Logo" width={100} />
