@@ -1,37 +1,31 @@
 import { Link } from "react-router-dom";
+import { formatDate } from "../../utils/helpers";
 
-function ReportCard({ reportId }) {
+function ReportCard({ data, userData }) {
   return (
     <Link
-      to={`/report/${reportId}`}
-      className="w-full bg-white border border-gray-200 shadow rounded-xl h-[300px] flex flex-col justify-center items-center gap-4"
+      to={`/report/${data.id}`}
+      className="w-full p-4 flex flex-col gap-4 bg-white border border-gray-200 shadow rounded-xl"
     >
-      Report Card
-      {/* <svg
-        width="24px"
-        height="24px"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-        <g
-          id="SVGRepo_tracerCarrier"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></g>
-        <g id="SVGRepo_iconCarrier">
-          {" "}
-          <path
-            d="M4 12H20M12 4V20"
-            stroke="#000000"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></path>{" "}
-        </g>
-      </svg>
-      <span className="font-medium text-lg">Add Report</span> */}
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-[#d9d9d9] rounded-full"></div>
+          <span>
+            {userData.data.firstName} {userData.data.lastName}
+          </span>
+        </div>
+        <span className="text-gray-400">{formatDate(data.createdAt)}</span>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">{data.title}</h2>
+          <span className="bg-yellow-400 px-2 py-1 rounded-full font-semibold">
+            {data.status}
+          </span>
+        </div>
+        <div className="border h-[1px]"></div>
+        <p>{data.description}</p>
+      </div>
     </Link>
   );
 }

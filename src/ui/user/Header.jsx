@@ -3,6 +3,7 @@ import { signOutAccount } from "../../services/auth";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../shared/Button";
 import Logo from "../../assets/Logo.png";
+import Avatar from "../../assets/avatar.png";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,12 +32,13 @@ function Header() {
   return (
     <header className="bg-white border-b-2 sticky top-0 left-0 z-40">
       <div className="max-w-7xl mx-auto p-4 xl:px-0 flex justify-between items-center">
-        <img src={Logo} alt="Logo" className="w-16" />
+        <Link to="/">
+          <img src={Logo} alt="Logo" className="w-16" />
+        </Link>
         <div className="relative" ref={avatarRef}>
-          <button
-            className="bg-[#d9d9d9] w-[50px] h-[50px] rounded-full"
-            onClick={toggleDropdown}
-          ></button>
+          <button className="rounded-full" onClick={toggleDropdown}>
+            <img src={Avatar} alt="user" />
+          </button>
           {isOpen && (
             <div className="absolute w-[150px] right-[2px] top-14 bg-white border border-gray-200 shadow rounded-xl p-2 flex flex-col gap-2 items-center">
               <Link to="/profile" className="font-semibold hover:underline">

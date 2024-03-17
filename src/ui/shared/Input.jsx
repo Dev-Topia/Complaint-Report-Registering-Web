@@ -15,13 +15,12 @@ function Input({
   disabled,
   customClass,
 }) {
-
   const defaultClass =
     "rounded-xl w-full py-2 px-4 border-2 focus:outline-none focus:ring focus:border-[#227F4B]";
   const buttonClass = customClass
     ? `${defaultClass} ${customClass}`
     : defaultClass;
-    
+
   const isPassword = type === "password";
   const [ShowPassword, setShowPassword] = useState(false);
 
@@ -42,6 +41,7 @@ function Input({
           required={isRequired}
           className={buttonClass}
           disabled={disabled}
+          value={value}
         />
         {isPassword && (
           <button

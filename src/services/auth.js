@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 export const signInAccount = async (account) => {
   try {
     const response = await axios.post(
-      "http://localhost:5023/api/Account/sign-in",
+      "https://api.devtopia.one/api/Account/sign-in",
       account
     );
     const data = response.data;
@@ -26,7 +26,7 @@ export const signUpAccount = async (account) => {
   console.log(account);
   try {
     const response = await axios.post(
-      "http://localhost:5023/api/Account/sign-up",
+      "https://api.devtopia.one/api/Account/sign-up",
       account
     );
     const data = response.data;
@@ -43,7 +43,7 @@ export const signOutAccount = async () => {
   if (token) {
     try {
       const response = await axios.post(
-        "http://localhost:5023/api/Account/sign-out",
+        "https://api.devtopia.one/api/Account/sign-out",
         {},
         {
           headers: {
@@ -70,7 +70,7 @@ export const getUserProfile = async () => {
   if (userId) {
     try {
       const response = await axios.get(
-        `http://localhost:5023/api/Account/get-user-profile/${userId}`,
+        `https://api.devtopia.one/api/Account/get-user-profile/${userId}`,
         {
           headers: {
             Authorization: "Bearer " + token,

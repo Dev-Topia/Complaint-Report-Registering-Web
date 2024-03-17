@@ -6,8 +6,10 @@ import Button from "../../ui/shared/Button";
 function RegisterForm() {
   const [inputData, setInputData] = useState({
     title: "",
-    type: "test",
+    complaintTypeId: "",
+    statusTypeId: "47b18aa4-d206-4c6c-a162-558ede06f9cb",
     description: "",
+    fileUrl: null,
   });
   const onChange = (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function RegisterForm() {
     createComplaint(inputData);
   };
   return (
-    <div className="p-4 xl:px-0">
+    <div className="p-4 md:p-10 xl:px-0">
       <form
         onSubmit={onSubmit}
         className="bg-white border border-gray-200 shadow flex flex-col items-center p-10 gap-4"
@@ -41,17 +43,29 @@ function RegisterForm() {
             />
           </div>
           <div className="flex flex-col gap-2 w-full md:w-1/2">
-            <label htmlFor="gender">Type</label>
+            <label htmlFor="complaintType">Type</label>
             <select
+              id="complaintTypeId"
               className="form-select block rounded-xl w-full py-2 px-4 border-2"
               required
+              onChange={onChange}
             >
               <option>Select</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              <option value="05296d83-5dc5-461c-bdf4-11dc0159ce86">
+                Grading and Assessment
+              </option>
+              <option value="54df1f6a-e7a8-4711-a50b-d8c4469003e4">
+                Facilities Maintenance
+              </option>
+              <option value="7a5b77ac-d418-4e27-b6b5-e6d2a2b5fa7e">
+                Special Education Services
+              </option>
+              <option value="86411e89-e463-4387-b7ac-bb1c84550bbe">
+                Safety and Security
+              </option>
+              <option value="ed8d4f97-9b17-4417-987f-cb7565f4da36">
+                Teacher Conduct
+              </option>
             </select>
           </div>
         </div>
