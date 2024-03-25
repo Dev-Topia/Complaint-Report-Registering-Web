@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { signOutAccount } from "../../services/auth";
 import Button from "../shared/Button";
 import Logo from "../../assets/Logo.png";
@@ -19,15 +19,26 @@ function Sidebar() {
             <img src={Logo} alt="Logo" className="w-28" />
           </Link>
           <div className="flex flex-col text-lg font-semibold gap-4">
-            <Link to="/" className="font-semibold flex gap-2 items-center">
-              Dashboard
-            </Link>
-            <Link
-              to="/report"
-              className="font-semibold flex gap-2 items-center"
-            >
-              Report
-            </Link>
+          <NavLink
+            to="/"
+            className={({ isActive }) => {
+              return !isActive
+                ? "font-semibold flex gap-2 hover:text-white items-center hover:bg-[#4f8d6a] p-2 rounded-lg"
+                : "font-semibold flex gap-2 text-white items-center p-2 rounded-lg bg-[#4f8d6a]";
+            }}
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/report"
+            className={({ isActive }) => {
+              return !isActive
+                ? "font-semibold hover:text-white flex gap-2 items-center hover:bg-[#4f8d6a] p-2 rounded-lg"
+                : "font-semibold text-white flex gap-2 items-center p-2 rounded-lg bg-[#4f8d6a]";
+            }}
+          >
+            Report
+          </NavLink>
           </div>
         </div>
         <div>
