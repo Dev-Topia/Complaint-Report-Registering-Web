@@ -12,6 +12,11 @@ const AppReducer = (state, action) => {
         ...state,
         user: action.payload,
       };
+    case "SET_SINGLE_COMPLAINT":
+      return {
+        ...state,
+        singleComplaint: action.payload,
+      }
     default:
       return state;
   }

@@ -7,7 +7,7 @@ function RegisterForm() {
   const [inputData, setInputData] = useState({
     title: "",
     complaintTypeId: "",
-    statusTypeId: "47b18aa4-d206-4c6c-a162-558ede06f9cb",
+    statusTypeId: "bb07beff-74ed-4094-a1b5-aa8476ac9a77",
     description: "",
     fileUrl: null,
   });
@@ -51,19 +51,19 @@ function RegisterForm() {
               onChange={onChange}
             >
               <option>Select</option>
-              <option value="05296d83-5dc5-461c-bdf4-11dc0159ce86">
+              <option value="0294a097-80ff-4661-bd39-f95c4695a4bc">
                 Grading and Assessment
               </option>
-              <option value="54df1f6a-e7a8-4711-a50b-d8c4469003e4">
+              <option value="bd791b38-aeda-4285-b8d6-480bbcf70f41">
                 Facilities Maintenance
               </option>
-              <option value="7a5b77ac-d418-4e27-b6b5-e6d2a2b5fa7e">
+              <option value="459487e3-6e7a-4421-8cc5-9a61133e365f">
                 Special Education Services
               </option>
-              <option value="86411e89-e463-4387-b7ac-bb1c84550bbe">
+              <option value="d90021db-337c-4236-a800-2ef7aade78dc">
                 Safety and Security
               </option>
-              <option value="ed8d4f97-9b17-4417-987f-cb7565f4da36">
+              <option value="1b566bdb-279d-4b65-b893-897ab052d77c">
                 Teacher Conduct
               </option>
             </select>
