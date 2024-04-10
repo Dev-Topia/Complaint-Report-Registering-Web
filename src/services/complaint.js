@@ -39,3 +39,24 @@ export const getSingleComplaint = async (id) => {
     }
   }
 };
+
+export const getAllComplaint = async () => {
+  const token = Cookies.get("token");
+  if (token) {
+    try {
+      const response = await axios.get(
+        `https://api.devtopia.one/api/Complaint/get-all-complaint`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+}

@@ -8,6 +8,7 @@ export const AppProvider = ({ children }) => {
     userId: "",
     token: "",
     role: "user",
+    singleComplaint:'',
     user: {},
   };
 
