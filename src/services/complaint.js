@@ -31,11 +31,9 @@ export const getSingleComplaint = async (id) => {
           },
         }
       );
-      const data = response.data;
-      return data;
+      return response;
     } catch (error) {
-      console.error(error);
-      return null;
+      return error.response;
     }
   }
 };
@@ -52,11 +50,9 @@ export const getAllComplaint = async () => {
           },
         }
       );
-      const data = response.data;
-      return data;
+      return response;
     } catch (error) {
-      console.error(error);
-      return null;
+      return error.response;
     }
   }
-}
+};

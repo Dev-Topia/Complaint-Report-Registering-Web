@@ -1,9 +1,9 @@
+import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { getAllComplaint } from "../../services/complaint";
+import AppContext from "../../contexts/AppContext";
 import ReportCard from "../../ui/admin/ReportCard";
 import ReportContent from "../../ui/admin/ReportContent";
-import { getAllComplaint } from "../../services/complaint";
-import { useContext } from "react";
-import AppContext from "../../contexts/AppContext";
 
 function AdminReport() {
   const { singleComplaint } = useContext(AppContext);
@@ -11,29 +11,25 @@ function AdminReport() {
     queryKey: ["getAllComplaint"],
     queryFn: getAllComplaint,
   });
-  console.log(data);
   if (isLoading) {
     return <h1>loading</h1>;
   }
   return (
-    <div className="flex">
-      <div className="w-full md:w-1/2 flex flex-col xl:overflow-y-auto xl:h-[90vh] gap-4 p-4">
+    <div className="flex gap-4">
+      <div className="w-full md:w-1/2 flex flex-col md:overflow-y-auto md:h-[90vh] gap-4 p-4 md:pt-4 md:pl-4 md:pr-0">
         {!isLoading &&
-          data &&
-          data.complaints.map((complaint, index) => (
+          data?.data.data.map((complaint, index) => (
             <ReportCard key={index} data={complaint} />
           ))}
       </div>
-      <div className="hidden md:block md:w-1/2 xl:overflow-y-auto xl:h-[90vh] p-4">
-        <div className="bg-white border border-gray-200 shadow rounded-xl">
-          {singleComplaint.id ? (
-            <div>
-              <ReportContent data={singleComplaint} />
-            </div>
+      <div className="hidden md:block md:w-1/2 md:overflow-y-auto md:h-[90vh] py-4 pr-4">
+        <div className="h-full bg-white border border-gray-200 shadow rounded-xl">
+          {singleComplaint.complaintId ? (
+            <ReportContent data={singleComplaint} />
           ) : (
-            <div className="h-[400px] w-full flex items-center justify-center">
-              <h1 className="text-xl font-bold">No Report Yet</h1>
-            </div>
+            <h1 className="text-xl  flex justify-center items-center h-full">
+              No Report Selected
+            </h1>
           )}
         </div>
       </div>

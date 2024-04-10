@@ -3,7 +3,6 @@ import { signOutAccount } from "../../services/auth";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../shared/Button";
 import Logo from "../../assets/Logo.png";
-import Avatar from "../../assets/avatar.png";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);

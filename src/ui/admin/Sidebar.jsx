@@ -1,9 +1,9 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { signOutAccount } from "../../services/auth";
-import Button from "../shared/Button";
+import { TbReportAnalytics } from "react-icons/tb";
 import { MdDashboard } from "react-icons/md";
 import Logo from "../../assets/Logo.png";
-import { TbReportAnalytics } from "react-icons/tb";
+import Button from "../shared/Button";
 
 function Sidebar() {
   const navigate = useNavigate();
