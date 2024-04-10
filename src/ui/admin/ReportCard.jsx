@@ -1,27 +1,28 @@
-import { Link } from "react-router-dom";
+import { formatDate } from "../../utils/helpers";
+import { useContext } from "react";
+import AppContext from "../../contexts/AppContext";
 
-function ReportCard({ reportId }) {
+function ReportCard({ data }) {
+  const {dispatch} = useContext(AppContext);
+  const setSingleComplaint = () => {
+    dispatch({type: "SET_SINGLE_COMPLAINT", payload: data})
+  }
   return (
-    <Link to={`/report/${reportId}`}>
-      <div className="w-full bg-white border border-gray-200 shadow rounded-xl p-4">
+    <button onClick={setSingleComplaint} className="w-full text-left bg-white border border-gray-200 shadow rounded-xl p-4">
         <div className="flex justify-between items-center mb-4">
           <div className="flex gap-4 items-center">
             <div className="w-[48px] h-[48px] bg-[#d9d9d9] rounded-full"></div>
-            <p>Sodara Sou</p>
+            <p>{data.user.lastName}{" "}{data.user.firstName}</p>
           </div>
-          <span className="text-gray-400">Mon, 12 Mar - 12:00 AM</span>
+          <span className="text-gray-400">{formatDate(data.createdAt)}</span>
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Title</h1>
+          <h1 className="text-2xl font-bold">{data.title}</h1>
           <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat
-            quis ipsam suscipit adipisci deserunt amet atque quam blanditiis
-            explicabo voluptatibus commodi, sequi non. Molestias aliquam omnis
-            sit labore quisquam rerum?
+            {data.description}
           </p>
         </div>
-      </div>
-    </Link>
+      </button>
   );
 }
 

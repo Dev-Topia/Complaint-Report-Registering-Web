@@ -1,7 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { signOutAccount } from "../../services/auth";
 import Button from "../shared/Button";
+import { MdDashboard } from "react-icons/md";
 import Logo from "../../assets/Logo.png";
+import { TbReportAnalytics } from "react-icons/tb";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -19,15 +21,28 @@ function Sidebar() {
             <img src={Logo} alt="Logo" className="w-28" />
           </Link>
           <div className="flex flex-col text-lg font-semibold gap-4">
-            <Link to="/" className="font-semibold flex gap-2 items-center">
-              Dashboard
-            </Link>
-            <Link
-              to="/report"
-              className="font-semibold flex gap-2 items-center"
-            >
-              Report
-            </Link>
+          <NavLink
+            to="/"
+            className={({ isActive }) => {
+              return !isActive
+                ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
+                : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
+            }}
+          >
+            <MdDashboard />
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/report"
+            className={({ isActive }) => {
+              return !isActive
+                ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
+                : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
+            }}
+          >
+           <TbReportAnalytics />
+            Report
+          </NavLink>
           </div>
         </div>
         <div>
