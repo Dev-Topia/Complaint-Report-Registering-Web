@@ -13,7 +13,7 @@ function Profile() {
     return <p>Loading...</p>;
   }
   return (
-    <section className="p-4 md:p-10 xl:px-0 flex flex-col gap-4 md:gap-10">
+    <section className="p-4 md:p-10 flex flex-col gap-4 md:gap-10">
       {data && !isLoading && (
         <>
           <div className="w-full bg-white border border-gray-200 shadow p-4 md:p-10">
@@ -54,7 +54,7 @@ function Profile() {
                   className="outline-none text-lg"
                   // disabled={editMode}
                   // onChange={onChange}
-                  value={data.data.firstName}
+                  value={data?.firstName}
                 />
                 <Input
                   title="Last Name"
@@ -64,7 +64,7 @@ function Profile() {
                   className="outline-none text-lg"
                   // disabled={editMode}
                   // onChange={onChange}
-                  value={data.data.lastName}
+                  value={data?.lastName}
                 />
                 <Input
                   title="Email"
@@ -74,9 +74,9 @@ function Profile() {
                   className="outline-none text-lg"
                   // disabled={true}
                   // onChange={onChange}
-                  value={data.data.email}
+                  value={data?.email}
                 />
-                <Input
+                {/* <Input
                   title="Phone Number"
                   type="text"
                   placeholder=""
@@ -84,7 +84,7 @@ function Profile() {
                   className="outline-none text-lg"
                   // disabled={editMode}
                   // onChange={onChange}
-                />
+                /> */}
               </div>
             </div>
           </div>
@@ -93,11 +93,17 @@ function Profile() {
               <h1 className="font-bold text-2xl md:text-4xl">My Complaints</h1>
             </div>
             <div className="h-[1px] bg-[#D9D9D9] mb-4"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {data.data.complaints.map((complaint, index) => (
-                <ReportCard key={index} data={complaint} userData={data} />
-              ))}
-            </div>
+            {data?.complaints.length === 0 ? (
+              <div className="flex justify-center">
+                <h1 className="text-xl font-semibold p-10">No Complaints</h1>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {data?.complaints.map((complaint, index) => (
+                  <ReportCard key={index} data={complaint} userData={data} />
+                ))}
+              </div>
+            )}
           </div>
         </>
       )}

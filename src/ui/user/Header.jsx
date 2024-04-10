@@ -37,7 +37,11 @@ function Header() {
         </Link>
         <div className="relative" ref={avatarRef}>
           <button className="rounded-full" onClick={toggleDropdown}>
-            <img src={Avatar} alt="user" />
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+              alt="avatar"
+              className="rounded-full w-12"
+            />
           </button>
           {isOpen && (
             <div className="absolute w-[150px] right-[2px] top-14 bg-white border border-gray-200 shadow rounded-xl p-2 flex flex-col gap-2 items-center">

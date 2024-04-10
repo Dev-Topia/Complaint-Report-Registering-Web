@@ -5,7 +5,7 @@ import Logo from "../../assets/Logo.png";
 import Input from "../../ui/shared/Input";
 import Button from "../../ui/shared/Button";
 
-function SignUp({ setLoading }) {
+function SignUp() {
   const [inputData, setInputData] = useState({
     firstName: "",
     lastName: "",
@@ -13,6 +13,7 @@ function SignUp({ setLoading }) {
     password: "",
     confirmPassword: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
   const onChange = (e) => {
     e.preventDefault();
     setInputData((prevState) => ({
@@ -23,9 +24,15 @@ function SignUp({ setLoading }) {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (inputData.password !== inputData.confirmPassword) {
+      setErrorMessage("Password and confirm password not match");
+      return;
+    }
     const res = await signUpAccount(inputData);
     if (res.status === 200) {
       navigate("/signin");
+    } else {
+      setErrorMessage(res.data.msg);
     }
   };
   return (
@@ -39,6 +46,11 @@ function SignUp({ setLoading }) {
           <h1 className="text-2xl md:text-4xl font-bold">Sign Up</h1>
         </div>
         <div className="flex gap-4">
+          {errorMessage && (
+            <p className="text-sm bg-red-200 text-red-500 p-4 rounded-xl">
+              {errorMessage}
+            </p>
+          )}
           <Input
             title="First Name"
             id="firstName"
@@ -82,7 +94,6 @@ function SignUp({ setLoading }) {
           type="password"
           isRequired={true}
         />
-
         <Button type="submit" customClass="md:w-full">
           Sign Up
         </Button>

@@ -12,6 +12,7 @@ function SignIn() {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
   const onChange = (e) => {
     e.preventDefault();
     setInputData((prevState) => ({
@@ -23,8 +24,12 @@ function SignIn() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const res = await signInAccount(inputData);
-    dispatch({ type: "SET_USER_DATA", payload: { ...res } });
-    navigate("/");
+    if (res.status === 200) {
+      dispatch({ type: "SET_USER_DATA", payload: { ...res.data } });
+      navigate("/");
+    } else {
+      setErrorMessage(res.data.msg);
+    }
   };
   return (
     <div className="h-screen flex flex-col justify-center items-center p-4 md:p-0">
@@ -37,6 +42,11 @@ function SignIn() {
           <h1 className="text-2xl md:text-4xl font-bold">Sign In</h1>
         </div>
         <div className="flex flex-col gap-4">
+          {errorMessage && (
+            <p className="text-sm bg-red-200 text-red-500 p-4 rounded-xl">
+              {errorMessage}
+            </p>
+          )}
           <Input
             title="Email"
             id="email"
