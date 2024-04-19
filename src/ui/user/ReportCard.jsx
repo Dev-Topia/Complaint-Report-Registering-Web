@@ -4,7 +4,7 @@ import { formatDate } from "../../utils/helpers";
 function ReportCard({ data, userData }) {
   return (
     <Link
-      to={`/report/${data.id}`}
+      to={`/report/${data.complaintId}`}
       className="w-full p-4 flex flex-col gap-4 bg-white border border-gray-200 shadow rounded-xl"
     >
       <div className="flex justify-between items-center">

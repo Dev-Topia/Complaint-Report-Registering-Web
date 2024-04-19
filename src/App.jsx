@@ -6,7 +6,6 @@ import AppContext from "./contexts/AppContext";
 import { useContext } from "react";
 import AppLayout from "./ui/AppLayout";
 import RegisterForm from "./pages/user/RegisterForm";
-import Report from "./pages/user/Report";
 import AdminLayout from "./ui/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminReport from "./pages/admin/AdminReport";
@@ -45,7 +44,6 @@ function App() {
               <Route path="/" element={<AppLayout />}>
                 <Route path="/" element={<RegisterForm />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/report" element={<Report />} />
                 <Route path="/report/:id" element={<SingleReport />} />
               </Route>
             )}

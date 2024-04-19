@@ -34,6 +34,7 @@ export const getSingleComplaint = async (id) => {
       );
       return response;
     } catch (error) {
+      console.log(error.response);
       return error.response;
     }
   }
