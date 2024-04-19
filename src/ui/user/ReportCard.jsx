@@ -11,7 +11,7 @@ function ReportCard({ data, userData }) {
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-[#d9d9d9] rounded-full"></div>
           <span>
-            {userData.data.firstName} {userData.data.lastName}
+            {userData.firstName} {userData.lastName}
           </span>
         </div>
         <span className="text-gray-400">{formatDate(data.createdAt)}</span>

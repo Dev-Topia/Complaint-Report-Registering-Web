@@ -2,6 +2,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { signOutAccount } from "../../services/auth";
 import { TbReportAnalytics } from "react-icons/tb";
 import { MdDashboard } from "react-icons/md";
+import { IoSettingsOutline } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa";
 import Logo from "../../assets/Logo.png";
 import Button from "../shared/Button";
 
@@ -21,28 +23,50 @@ function Sidebar() {
             <img src={Logo} alt="Logo" className="w-28" />
           </Link>
           <div className="flex flex-col text-lg font-semibold gap-4">
-          <NavLink
-            to="/"
-            className={({ isActive }) => {
-              return !isActive
-                ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
-                : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
-            }}
-          >
-            <MdDashboard />
-            Dashboard
-          </NavLink>
-          <NavLink
-            to="/report"
-            className={({ isActive }) => {
-              return !isActive
-                ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
-                : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
-            }}
-          >
-           <TbReportAnalytics />
-            Report
-          </NavLink>
+            <NavLink
+              to="/"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
+                  : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
+              }}
+            >
+              <MdDashboard />
+              Dashboard
+            </NavLink>
+            <NavLink
+              to="/report"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
+                  : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
+              }}
+            >
+              <TbReportAnalytics />
+              Report
+            </NavLink>
+            <NavLink
+              to="/user"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
+                  : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
+              }}
+            >
+              <FaRegUser />
+              User
+            </NavLink>
+            <NavLink
+              to="/setting"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
+                  : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
+              }}
+            >
+              <IoSettingsOutline />
+              Setting
+            </NavLink>
           </div>
         </div>
         <div>

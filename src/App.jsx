@@ -16,6 +16,8 @@ import ForgetPassword from "./pages/auth/ForgetPassword";
 import SingleReport from "./pages/user/SingleReport";
 import ProtectedRoute from "./pages/auth/ProtectedRoute";
 import Profile from "./pages/user/Profile";
+import Setting from "./pages/admin/Setting";
+import User from "./pages/admin/User";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +38,8 @@ function App() {
               <Route path="/" element={<AdminLayout />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/report" element={<AdminReport />} />
+                <Route path="/setting" element={<Setting />} />
+                <Route path="/user" element={<User />} />
               </Route>
             ) : (
               <Route path="/" element={<AppLayout />}>

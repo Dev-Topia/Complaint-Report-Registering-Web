@@ -9,6 +9,7 @@ function SignUp() {
   const [inputData, setInputData] = useState({
     firstName: "",
     lastName: "",
+    role: "User",
     email: "",
     password: "",
     confirmPassword: "",

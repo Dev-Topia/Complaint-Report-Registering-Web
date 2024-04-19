@@ -76,7 +76,7 @@ function Profile() {
                   // onChange={onChange}
                   value={data?.email}
                 />
-                {/* <Input
+                <Input
                   title="Phone Number"
                   type="text"
                   placeholder=""
@@ -84,7 +84,8 @@ function Profile() {
                   className="outline-none text-lg"
                   // disabled={editMode}
                   // onChange={onChange}
-                /> */}
+                  value={data?.phoneNumber}
+                />
               </div>
             </div>
           </div>

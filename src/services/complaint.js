@@ -13,9 +13,10 @@ export const createComplaint = async (complaint) => {
         },
       }
     );
-    console.log(response);
+    return response;
   } catch (error) {
     console.error(error);
+    return error.response;
   }
 };
 
@@ -44,6 +45,44 @@ export const getAllComplaint = async () => {
     try {
       const response = await axios.get(
         `https://api.devtopia.one/api/Complaint/get-all-complaint`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  }
+};
+
+export const getAllComplaintType = async () => {
+  const token = Cookies.get("token");
+  if (token) {
+    try {
+      const response = await axios.get(
+        `https://api.devtopia.one/api/Complaint/get-complaint-type`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  }
+};
+
+export const deleteComplaintType = async (complaintTypeId) => {
+  const token = Cookies.get("token");
+  if (token) {
+    try {
+      const response = await axios.delete(
+        `https://api.devtopia.one/api/Complaint/delete-complaint-type/${complaintTypeId}`,
         {
           headers: {
             Authorization: "Bearer " + token,
