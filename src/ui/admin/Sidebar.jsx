@@ -2,6 +2,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { signOutAccount } from "../../services/auth";
 import Button from "../shared/Button";
 import { MdDashboard } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
 import Logo from "../../assets/Logo.png";
 import { TbReportAnalytics } from "react-icons/tb";
 
@@ -42,6 +43,17 @@ function Sidebar() {
           >
            <TbReportAnalytics />
             Report
+          </NavLink>
+          <NavLink
+            to="/user"
+            className={({ isActive }) => {
+              return !isActive
+                ? "font-semibold flex gap-2 items-center hover:text-white hover:bg-[#227F4B] p-2 rounded-lg"
+                : "font-semibold flex gap-2 items-center text-white p-2 rounded-lg bg-[#227F4B]";
+            }}
+          >
+           <FaUser />
+            User
           </NavLink>
           </div>
         </div>

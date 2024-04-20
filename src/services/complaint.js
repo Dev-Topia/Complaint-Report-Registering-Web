@@ -60,3 +60,43 @@ export const getAllComplaint = async () => {
     }
   }
 }
+
+export const updateComplaint = async (id) => {
+  const token = Cookies.get('token');
+  if(token) {
+    try {
+      const response = await axios.put(
+        `https://api.devtopia.one/api/Complaint/update-complaint/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer" + token,
+          },
+        }
+      );
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+}
+
+export const deleteComplaint = async (id) => {
+  const token = Cookies.get('token');
+  if(token) {
+    try {
+      const response = await axios.delete(
+        `https://api.devtopia.one/api/Complaint/delete-complaint/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer" + token,
+          },
+        }
+      );
+    } catch (error){
+      console.error(error);
+      return null;
+    }
+  }
+}

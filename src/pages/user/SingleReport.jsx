@@ -12,6 +12,10 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import CheckIcon from "@mui/icons-material/Check";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Button from "../../ui/shared/Button";
+import { deleteComplaint } from "../../services/complaint";
+import { useState } from "react";
+import Modal from "../../ui/shared/Modal";
+import RegisterForm from "./RegisterForm";
 
 function SingleReport() {
   const { id } = useParams();
@@ -23,11 +27,22 @@ function SingleReport() {
     queryKey: ["getUserProfiles"],
     queryFn: getUserProfile,
   });
+  const handleDelete = async () => {
+    const response = await deleteComplaint(id);
+    if (response) {
+      alert("successful delete");
+    }
+  };
+  const [openModal, setOpenModal] = useState(false);
+  const handleModal = (state) => {
+    setOpenModal(state);
+  };
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
   return (
     <>
+      {openModal && <Modal  openModal={handleModal}> <RegisterForm/> </Modal>}
       {data && !isLoading && (
         <div className="p-4 md:p-10 xl:px-0">
           <div className="bg-white border border-gray-200 shadow h-full flex flex-col gap-4 p-10 justify-between">
@@ -132,8 +147,15 @@ function SingleReport() {
               </div>
               <div className="border h-[1px]"></div>
               <div className="flex gap-4 justify-end">
-                <Button customClass="bg-blue-500">Edit</Button>
-                <Button customClass="bg-red-500">Delete</Button>
+                <Button
+                  customClass="bg-blue-500"
+                  onClick={() => handleModal(true)}
+                >
+                  Edit
+                </Button>
+                <Button customClass="bg-red-500" onClick={handleDelete}>
+                  Delete
+                </Button>
               </div>
             </div>
           </div>
