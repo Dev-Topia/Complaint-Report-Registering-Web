@@ -20,3 +20,25 @@ export const getUsers = async () => {
     }
   }
 };
+
+export const updateUser = async (userUpdate) => {
+  const token = Cookies.get("token");
+  const userId = Cookies.get("userId");
+  if (userId) {
+    try {
+      const response = await axios.put(
+        `https://api.devtopia.one/api/User/update-user/${userId}`,
+        userUpdate,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  }
+};
