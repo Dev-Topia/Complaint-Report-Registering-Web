@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import AppContext from "./contexts/AppContext";
-import { useContext } from "react";
 import AppLayout from "./ui/AppLayout";
 import RegisterForm from "./pages/user/RegisterForm";
 import AdminLayout from "./ui/AdminLayout";
