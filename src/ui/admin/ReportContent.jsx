@@ -49,7 +49,7 @@ function ReportContent({ data }) {
         <div className="flex flex-col gap-4">
           <p>{data.description}</p>
           {/* {data !== "" && <img src={data.fileUrl} alt="" />} */}
-          {isImage && <img src={data.fileUrl} alt="File" className="w-64" />}
+          {isImage && <img src={data.fileUrl} alt="File" className="w-72" />}
           {/* {isPdf && (
             <object data={data.fileUrl} type="application/pdf" className="w-64">
               <embed src={data.fileUrl} type="application/pdf" />
