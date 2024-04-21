@@ -12,17 +12,30 @@ function ReportCard({ data }) {
       onClick={setSingleComplaint}
       className="w-full text-left bg-white border border-gray-200 shadow rounded-xl p-4"
     >
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <div className="flex gap-4 items-center">
-          <div className="w-[48px] h-[48px] bg-[#d9d9d9] rounded-full"></div>
-          <p>
-            {data.user.lastName} {data.user.firstName}
-          </p>
+          <img
+            src={
+              data?.user.imageUrl ||
+              "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+            }
+            alt="avatar"
+            className="rounded-full w-12 h-12 object-cover"
+          />
+          <div>
+            <p>
+              {data.user.lastName} {data.user.firstName}
+            </p>
+            <p className="text-gray-400">{data.user.email}</p>
+          </div>
         </div>
         <span className="text-gray-400">{formatDate(data.createdAt)}</span>
       </div>
       <div>
-        <h1 className="text-2xl font-bold">{data.title}</h1>
+        <div className="mb-2">
+          <h1 className="text-4xl font-semibold">{data.title}</h1>
+          <h2 className="">{data.complaintType}</h2>
+        </div>
         <p>{data.description}</p>
       </div>
     </button>
