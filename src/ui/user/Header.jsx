@@ -1,10 +1,15 @@
 import { useEffect, useState, useRef } from "react";
-import { signOutAccount } from "../../services/auth";
+import { useQuery } from "@tanstack/react-query";
+import { signOutAccount, getUserProfile } from "../../services/auth";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../shared/Button";
 import Logo from "../../assets/Logo.png";
 
 function Header() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserProfiles"],
+    queryFn: getUserProfile,
+  });
   const [isOpen, setIsOpen] = useState(false);
   const avatarRef = useRef();
   useEffect(() => {
@@ -34,12 +39,15 @@ function Header() {
         <Link to="/">
           <img src={Logo} alt="Logo" className="w-16" />
         </Link>
-        <div className="relative" ref={avatarRef}>
+        <div className="relative flex items-center" ref={avatarRef}>
           <button className="rounded-full" onClick={toggleDropdown}>
             <img
-              src="https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+              src={
+                data?.imageUrl ||
+                "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+              }
               alt="avatar"
-              className="rounded-full w-12"
+              className="rounded-full w-12 h-12 object-cover"
             />
           </button>
           {isOpen && (

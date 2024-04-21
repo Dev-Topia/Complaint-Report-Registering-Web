@@ -14,6 +14,7 @@ function Profile() {
     queryKey: ["getUserProfiles"],
     queryFn: getUserProfile,
   });
+  const [loading, setLoading] = useState(false);
   const [imgUrl, setImgUrl] = useState("");
   const onImgUrlChange = (e) => {
     setImgUrl(e.target.files[0]);
@@ -43,17 +44,20 @@ function Profile() {
     phoneNumber: "",
     imageUrl: "",
   });
+  console.log(inputData);
   const onChange = (e) => {
     setInputData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
   };
+  console.log(inputData);
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
   const onSubmit = async () => {
     if (!editMode) {
+      setLoading(true);
       if (
         inputData.firstName === data.firstName &&
         inputData.lastName === data.lastName &&
@@ -61,21 +65,21 @@ function Profile() {
         inputData.imageUrl === data.imageUrl
       ) {
         setWarningMessage("No changes were made");
-        console.log("No changes were made.");
+        setLoading(false);
       } else {
         const res = await updateUser(inputData);
         if (res.status === 200) {
           setMessage(res.data.msg);
-          console.log(res.data.msg);
+          setLoading(false);
         } else {
           setErrorMessage(res.data.msg);
-          console.log(res.data.msg);
+          setLoading(false);
         }
       }
     }
     setEditMode(!editMode);
   };
-  if (isLoading) {
+  if (isLoading || loading) {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (
@@ -83,6 +87,10 @@ function Profile() {
       {data && !isLoading && (
         <>
           <div className="w-full bg-white border border-gray-200 shadow p-4 md:p-10">
+            {/* <div>
+              <input id="fileInput" type="file" onChange={onImgUrlChange} />
+              <button onClick={testUpload}>Test</button>
+            </div> */}
             <div className="flex justify-between items-center mb-4">
               <h1 className="font-bold text-2xl md:text-4xl">My Profile</h1>
             </div>
@@ -111,11 +119,12 @@ function Profile() {
                   >
                     <img
                       src={
-                        // inputData.imageUrl ||
+                        inputData.imageUrl ||
+                        data?.imageUrl ||
                         "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
                       }
                       alt="Profile Image"
-                      className="rounded-full w-40"
+                      className="rounded-full w-40 h-32 object-cover"
                     />
                   </label>
                   <input

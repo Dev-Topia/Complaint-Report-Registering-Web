@@ -14,6 +14,10 @@ function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [file, setFile] = useState("");
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
   const [inputData, setInputData] = useState({
     title: "",
     complaintTypeId: 0,
@@ -31,7 +35,7 @@ function RegisterForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const res = await createComplaint(inputData);
+    const res = await createComplaint(inputData, file);
     if (res.status == 200) {
       setModalMessage(res.data?.msg);
       setLoading(false);
@@ -102,10 +106,10 @@ function RegisterForm() {
           <div className="w-full">
             <Input
               title="Image && Proof"
-              id="image"
+              id="file"
               type="file"
-              onChange={onchange}
-              // isRequired={true}
+              onChange={onFileChange}
+              isRequired={true}
               // customClass="h-[200px] bg-[#ffffff]"
             />
           </div>
