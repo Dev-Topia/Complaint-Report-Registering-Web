@@ -1,0 +1,81 @@
+import axios from "axios";
+import Cookies from "js-cookie";
+
+export const signInAccount = async (account) => {
+  try {
+    const response = await axios.post(
+      "https://api.devtopia.one/api/User/sign-in",
+      account
+    );
+    const token = response.data.token;
+    const role = response.data.role;
+    const userId = response.data.userId;
+    Cookies.set("token", token);
+    Cookies.set("role", role);
+    Cookies.set("userId", userId);
+
+    return response;
+  } catch (error) {
+    const data = error.response;
+    return data;
+  }
+};
+
+export const signUpAccount = async (account) => {
+  try {
+    const response = await axios.post(
+      "https://api.devtopia.one/api/User/sign-up",
+      account
+    );
+    return response;
+  } catch (error) {
+    const data = error.response;
+    return data;
+  }
+};
+
+export const signOutAccount = async () => {
+  const token = Cookies.get("token");
+  if (token) {
+    try {
+      const response = await axios.post(
+        "https://api.devtopia.one/api/User/sign-out",
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      Cookies.remove("token");
+      Cookies.remove("role");
+      Cookies.remove("userId");
+      return response;
+    } catch (error) {
+      const data = error.response;
+      return data;
+    }
+  }
+};
+
+export const getUserProfile = async () => {
+  const token = Cookies.get("token");
+  const userId = Cookies.get("userId");
+  if (userId) {
+    try {
+      const response = await axios.get(
+        `https://api.devtopia.one/api/User/get-user/${userId}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      const data = error.response;
+      return data;
+    }
+  }
+};
