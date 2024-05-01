@@ -7,6 +7,7 @@ function ReportCard({ data }) {
   const setSingleComplaint = () => {
     dispatch({ type: "SET_SINGLE_COMPLAINT", payload: data });
   };
+  console.log(data);
   return (
     <button
       onClick={setSingleComplaint}

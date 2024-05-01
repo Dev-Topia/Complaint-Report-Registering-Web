@@ -5,7 +5,6 @@ import { updateUser } from "../../services/user";
 import { FaPenToSquare } from "react-icons/fa6";
 import { FaSave } from "react-icons/fa";
 import ReportCard from "../../ui/user/ReportCard";
-// import Button from "../../ui/shared/Button";
 import Input from "../../ui/shared/Input";
 import Spinner from "../../ui/components/Spinner";
 
@@ -44,14 +43,12 @@ function Profile() {
     phoneNumber: "",
     imageUrl: "",
   });
-  console.log(inputData);
   const onChange = (e) => {
     setInputData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
   };
-  console.log(inputData);
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
@@ -87,10 +84,6 @@ function Profile() {
       {data && !isLoading && (
         <>
           <div className="w-full bg-white border border-gray-200 shadow p-4 md:p-10">
-            {/* <div>
-              <input id="fileInput" type="file" onChange={onImgUrlChange} />
-              <button onClick={testUpload}>Test</button>
-            </div> */}
             <div className="flex justify-between items-center mb-4">
               <h1 className="font-bold text-2xl md:text-4xl">My Profile</h1>
             </div>

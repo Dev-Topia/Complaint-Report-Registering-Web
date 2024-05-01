@@ -1,16 +1,9 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleComplaint } from "../../services/complaint";
 import { getUserProfile } from "../../services/auth";
 import { formatDate } from "../../utils/helpers";
-// import Timeline from "@mui/lab/Timeline";
-// import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
-// import TimelineSeparator from "@mui/lab/TimelineSeparator";
-// import TimelineConnector from "@mui/lab/TimelineConnector";
-// import TimelineContent from "@mui/lab/TimelineContent";
-// import TimelineDot from "@mui/lab/TimelineDot";
-// import CheckIcon from "@mui/icons-material/Check";
-// import RemoveIcon from "@mui/icons-material/Remove";
 import Button from "../../ui/shared/Button";
 import Spinner from "../../ui/components/Spinner";
 
@@ -24,7 +17,16 @@ function SingleReport() {
     queryKey: ["getUserProfiles"],
     queryFn: getUserProfile,
   });
-  console.log(data);
+  const [isImage, setIsImage] = useState(false);
+  const [isPdf, setIsPdf] = useState(false);
+  useEffect(() => {
+    if (data?.data.data.fileUrl) {
+      setIsImage(
+        data?.data.data.fileUrl.match(/\.(jpeg|jpg|gif|png)(\?.*)?$/i)
+      );
+      setIsPdf(data?.data.data.fileUrl.match(/\.pdf(\?.*)?$/i));
+    }
+  }, [data]);
   if (isLoading) {
     return <Spinner fullScreenSpinner={true} />;
   }
@@ -38,7 +40,7 @@ function SingleReport() {
                 <div className="flex gap-4 items-center">
                   <img
                     src={
-                      profileData.imageUrl ||
+                      profileData?.imageUrl ||
                       "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
                     }
                     alt="avatar"
@@ -68,67 +70,36 @@ function SingleReport() {
                 </div>
               </div>
               <div className="border h-[1px]"></div>
-              <div className="flex justify-between gap-10">
+              <div className="flex flex-col gap-4">
                 <div className="w-full">
                   <p>{data?.data.data.description}</p>
                 </div>
-                {/* <div className="flex flex-col gap-4">
-                  <h2 className="text-lg md:text-2xl font-bold">Status</h2>
-                  <Timeline
-                    sx={{
-                      [`& .${timelineItemClasses.root}:before`]: {
-                        flex: 0,
-                        padding: 0,
-                      },
-                      padding: 0,
-                    }}
+                {isImage && (
+                  <img
+                    src={data?.data.data.fileUrl}
+                    alt="File"
+                    className="w-72"
+                  />
+                )}
+                {isPdf && (
+                  <a
+                    href={data?.data.data.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-72 relative block overflow-hidden"
                   >
-                    <TimelineItem>
-                      <TimelineSeparator>
-                        <TimelineDot sx={{ bgcolor: "#4ade80" }}>
-                          <CheckIcon />
-                        </TimelineDot>
-                        <TimelineConnector />
-                      </TimelineSeparator>
-                      <TimelineContent
-                        sx={{
-                          marginTop: 1.5,
-                        }}
-                      >
-                        Posted
-                      </TimelineContent>
-                    </TimelineItem>
-                    <TimelineItem>
-                      <TimelineSeparator>
-                        <TimelineDot>
-                          <RemoveIcon />
-                        </TimelineDot>
-                        <TimelineConnector />
-                      </TimelineSeparator>
-                      <TimelineContent
-                        sx={{
-                          marginTop: 1.5,
-                        }}
-                      >
-                        Reviewed
-                      </TimelineContent>
-                    </TimelineItem>
-                    <TimelineItem>
-                      <TimelineSeparator>
-                        <TimelineDot>
-                          <RemoveIcon />
-                        </TimelineDot>
-                      </TimelineSeparator>
-                      <TimelineContent
-                        sx={{
-                          marginTop: 1.5,
-                        }}
-                      >
-                        Finished
-                      </TimelineContent>
-                    </TimelineItem>
-                  </Timeline>
-                </div> */}
+                    <span className="absolute inset-0"></span>
+                    <object
+                      data={data?.data.data.fileUrl}
+                      type="application/pdf"
+                    >
+                      <embed
+                        src={data?.data.data.fileUrl}
+                        type="application/pdf"
+                      />
+                    </object>
+                  </a>
+                )}
               </div>
               <div className="border h-[1px]"></div>
               <div className="flex gap-4 justify-end">
