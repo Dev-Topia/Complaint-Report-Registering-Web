@@ -66,9 +66,7 @@ export const getUserProfile = async () => {
       const response = await axios.get(
         `https://api.devtopia.one/api/User/get-user/${userId}`,
         {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+          withCredentials: true,
         }
       );
       const data = response.data.data;
