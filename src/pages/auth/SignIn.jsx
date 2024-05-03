@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInAccount } from "../../services/auth";
+import AppContext from "../../contexts/AppContext";
 import Logo from "../../assets/Logo.png";
 import Input from "../../ui/shared/Input";
 import Button from "../../ui/shared/Button";
-import AppContext from "../../contexts/AppContext";
+import Spinner from "../../ui/components/Spinner";
 
 function SignIn() {
   const { dispatch } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState({
     email: "",
     password: "",
@@ -23,6 +25,7 @@ function SignIn() {
   const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const res = await signInAccount(inputData);
     if (res.status === 200) {
       dispatch({ type: "SET_USER_DATA", payload: { ...res.data } });
@@ -30,7 +33,11 @@ function SignIn() {
     } else {
       setErrorMessage(res.data.msg);
     }
+    setLoading(false);
   };
+  if (loading) {
+    return <Spinner fullScreenSpinner={true} />;
+  }
   return (
     <div className="h-screen flex flex-col justify-center items-center p-4 md:p-0">
       <form

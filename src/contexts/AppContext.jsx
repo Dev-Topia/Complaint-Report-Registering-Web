@@ -6,9 +6,9 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const initialState = {
     userId: "",
+    role: "",
     token: "",
-    role: "user",
-    singleComplaint:'',
+    singleComplaint: "",
     user: {},
   };
 

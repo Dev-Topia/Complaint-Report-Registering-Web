@@ -1,15 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { signOutAccount, getUserProfile } from "../../services/auth";
+import { signOutAccount } from "../../services/auth";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../shared/Button";
 import Logo from "../../assets/Logo.png";
 
 function Header() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["getUserProfiles"],
-    queryFn: getUserProfile,
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["getUserProfiles"],
+  //   queryFn: getUserProfile,
+  // });
   const [isOpen, setIsOpen] = useState(false);
   const avatarRef = useRef();
   useEffect(() => {
@@ -43,7 +43,7 @@ function Header() {
           <button className="rounded-full" onClick={toggleDropdown}>
             <img
               src={
-                data?.imageUrl ||
+                // data?.imageUrl ||
                 "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
               }
               alt="avatar"

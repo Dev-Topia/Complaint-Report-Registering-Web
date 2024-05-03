@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "../../services/auth";
+// import { getUserProfile } from "../../services/auth";
 import { updateUser } from "../../services/user";
 import { FaPenToSquare } from "react-icons/fa6";
 import { FaSave } from "react-icons/fa";
@@ -9,10 +9,10 @@ import Input from "../../ui/shared/Input";
 import Spinner from "../../ui/components/Spinner";
 
 function Profile() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["getUserProfiles"],
-    queryFn: getUserProfile,
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["getUserProfiles"],
+  //   queryFn: getUserProfile,
+  // });
   const [loading, setLoading] = useState(false);
   const [imgUrl, setImgUrl] = useState("");
   const onImgUrlChange = (e) => {
@@ -76,9 +76,9 @@ function Profile() {
     }
     setEditMode(!editMode);
   };
-  if (isLoading || loading) {
-    return <Spinner fullScreenSpinner={true} />;
-  }
+  // if (isLoading || loading) {
+  //   return <Spinner fullScreenSpinner={true} />;
+  // }
   return (
     <section className="p-4 md:p-10 flex flex-col gap-4 md:gap-10">
       {data && !isLoading && (

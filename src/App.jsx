@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect, useContext, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect, useContext } from "react";
-import Cookies from "js-cookie";
+import { getUserDataFromToken } from "./services/auth";
 import AppContext from "./contexts/AppContext";
 import AppLayout from "./ui/AppLayout";
 import RegisterForm from "./pages/user/RegisterForm";
@@ -16,22 +16,32 @@ import ProtectedRoute from "./pages/auth/ProtectedRoute";
 import Profile from "./pages/user/Profile";
 import Setting from "./pages/admin/Setting";
 import User from "./pages/admin/User";
+import Spinner from "./ui/components/Spinner";
 
 const queryClient = new QueryClient();
 
 function App() {
   const { dispatch, role } = useContext(AppContext);
-  const token = Cookies.get("token");
-  const userRole = Cookies.get("role");
-  const userId = Cookies.get("userId");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    dispatch({ type: "SET_USER_DATA", payload: { token, userRole, userId } });
-  }, [dispatch, token]);
+    const getUserData = async () => {
+      setLoading(true);
+      const userData = await getUserDataFromToken();
+      if (userData.status !== 400) {
+        dispatch({ type: "SET_USER_DATA", payload: { ...userData.data } });
+      }
+      setLoading(false);
+    };
+    getUserData();
+  }, []);
+  if (loading) {
+    return <Spinner fullScreenSpinner={true} />;
+  }
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
         <Routes>
-          <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<ProtectedRoute />}>
             {role === "Admin" ? (
               <Route path="/" element={<AdminLayout />}>
                 <Route path="/" element={<Dashboard />} />

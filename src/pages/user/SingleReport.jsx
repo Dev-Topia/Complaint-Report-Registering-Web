@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleComplaint } from "../../services/complaint";
-import { getUserProfile } from "../../services/auth";
+// import { getUserProfile } from "../../services/auth";
 import { formatDate } from "../../utils/helpers";
 import Button from "../../ui/shared/Button";
 import Spinner from "../../ui/components/Spinner";
 
 function SingleReport() {
   const { id } = useParams();
-  const { data, isLoading } = useQuery({
-    queryKey: ["getSingleComplaints"],
-    queryFn: () => getSingleComplaint(id),
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["getSingleComplaints"],
+  //   queryFn: () => getSingleComplaint(id),
+  // });
   const { data: profileData } = useQuery({
     queryKey: ["getUserProfiles"],
     queryFn: getUserProfile,

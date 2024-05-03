@@ -4,8 +4,8 @@ const AppReducer = (state, action) => {
       return {
         ...state,
         userId: action.payload.userId,
-        role: action.payload.userRole,
         token: action.payload.token,
+        role: action.payload.role,
       };
     case "SET_USER":
       return {
@@ -16,7 +16,7 @@ const AppReducer = (state, action) => {
       return {
         ...state,
         singleComplaint: action.payload,
-      }
+      };
     default:
       return state;
   }

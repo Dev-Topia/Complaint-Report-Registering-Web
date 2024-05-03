@@ -1,20 +1,20 @@
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "../../services/auth";
 import AppContext from "../../contexts/AppContext";
-import Cookies from "js-cookie";
+import Spinner from "../../ui/components/Spinner";
 
 function ProtectedRoute() {
-  // const { dispatch } = useContext(AppContext);
-  const { data } = useQuery({
-    queryKey: ["getUserProfiles"],
-    queryFn: getUserProfile,
-  });
-  // useEffect(() => {
-  //   dispatch({ type: "SET_USER", payload: data });
-  // }, [dispatch]);
-  const token = Cookies.get("token");
+  const { token } = useContext(AppContext);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (token !== "") {
+      setLoading(false);
+    }
+    setLoading(false);
+  }, [token]);
+  if (loading) {
+    return <Spinner fullScreenSpinner={true} />;
+  }
   return token ? <Outlet /> : <Navigate to="/signin" />;
 }
 

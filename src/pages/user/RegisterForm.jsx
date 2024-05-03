@@ -5,6 +5,7 @@ import Input from "../../ui/shared/Input";
 import Button from "../../ui/shared/Button";
 import Spinner from "../../ui/components/Spinner";
 import Modal from "../../ui/components/Modal";
+import { getUserDataFromToken } from "../../services/auth";
 
 function RegisterForm() {
   const { data: complaintType, isLoading } = useQuery({
@@ -44,6 +45,10 @@ function RegisterForm() {
   };
   const handleModal = (state) => {
     setOpenModal(state);
+  };
+  const handleTest = async (e) => {
+    e.preventDefault();
+    const res = await getUserDataFromToken();
   };
   if (isLoading) {
     return <Spinner fullScreenSpinner={true} />;
@@ -116,6 +121,7 @@ function RegisterForm() {
           <Button type="submit">Submit</Button>
         </form>
       </div>
+      <Button onClick={handleTest}>Test</Button>
     </>
   );
 }
