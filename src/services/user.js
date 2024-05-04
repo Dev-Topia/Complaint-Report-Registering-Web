@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import { storage } from "../firebase.config";
 import {
   getDownloadURL,
@@ -8,28 +7,25 @@ import {
   deleteObject,
 } from "firebase/storage";
 
+const apiDomain = "http://localhost:5023";
+
 export const getUsers = async () => {
-  const token = Cookies.get("token");
-  if (token) {
-    try {
-      const response = await axios.get(
-        "https://api.devtopia.one/api/User/get-users",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-      return error.response;
-    }
+  try {
+    const response = await axios.get(`${apiDomain}/api/User/get-users`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      withCredentials: true,
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
   }
 };
 
-export const uploadToFirebase = async (file) => {
-  const userId = Cookies.get("userId");
+export const uploadToFirebase = async (file, userId) => {
   try {
     const fileRef = ref(storage, `user-profile/${userId}`);
     const fileUrl = await getDownloadURL(fileRef).catch(() => null);
@@ -41,35 +37,36 @@ export const uploadToFirebase = async (file) => {
     console.log(newFileUrl);
     return newFileUrl;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return false;
   }
 };
 
 export const updateUser = async (userUpdate) => {
-  const token = Cookies.get("token");
-  const userId = Cookies.get("userId");
-  if (userId) {
-    try {
-      // const imageUrl = await uploadToFirebase(userUpdate.imageUrl);
-      // userUpdate.imageUrl = imageUrl;
-      if (userUpdate.imageUrl instanceof File) {
-        const imageUrl = await uploadToFirebase(userUpdate.imageUrl);
-        userUpdate.imageUrl = imageUrl;
-      }
-      const response = await axios.put(
-        `https://api.devtopia.one/api/User/update-user/${userId}`,
-        userUpdate,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
+  try {
+    // const imageUrl = await uploadToFirebase(userUpdate.imageUrl);
+    // userUpdate.imageUrl = imageUrl;
+    if (userUpdate.imageUrl instanceof File) {
+      const imageUrl = await uploadToFirebase(
+        userUpdate.imageUrl,
+        userUpdate.userId
       );
-      return response;
-    } catch (error) {
-      console.log(error);
-      return error.response;
+      userUpdate.imageUrl = imageUrl;
     }
+    const response = await axios.put(
+      `${apiDomain}/api/User/update-user/${userUpdate.userId}`,
+      userUpdate,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
   }
 };

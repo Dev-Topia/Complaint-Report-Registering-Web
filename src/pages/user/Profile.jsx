@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-// import { getUserProfile } from "../../services/auth";
+import { getUserProfile } from "../../services/auth";
 import { updateUser } from "../../services/user";
 import { FaPenToSquare } from "react-icons/fa6";
 import { FaSave } from "react-icons/fa";
 import ReportCard from "../../ui/user/ReportCard";
 import Input from "../../ui/shared/Input";
 import Spinner from "../../ui/components/Spinner";
+import AppContext from "../../contexts/AppContext";
 
 function Profile() {
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["getUserProfiles"],
-  //   queryFn: getUserProfile,
-  // });
+  const { userId } = useContext(AppContext);
+  const { data, isLoading } = useQuery({
+    queryKey: ["profiles"],
+    queryFn: async () => getUserProfile(userId),
+  });
   const [loading, setLoading] = useState(false);
   const [imgUrl, setImgUrl] = useState("");
   const onImgUrlChange = (e) => {
@@ -25,6 +27,7 @@ function Profile() {
         lastName: data.lastName,
         phoneNumber: data.phoneNumber,
         imageUrl: data.imageUrl,
+        userId: data.userId,
       });
     }
     if (imgUrl) {
@@ -42,6 +45,7 @@ function Profile() {
     lastName: "",
     phoneNumber: "",
     imageUrl: "",
+    userId: "",
   });
   const onChange = (e) => {
     setInputData((prevState) => ({
@@ -76,9 +80,9 @@ function Profile() {
     }
     setEditMode(!editMode);
   };
-  // if (isLoading || loading) {
-  //   return <Spinner fullScreenSpinner={true} />;
-  // }
+  if (isLoading || loading) {
+    return <Spinner fullScreenSpinner={true} />;
+  }
   return (
     <section className="p-4 md:p-10 flex flex-col gap-4 md:gap-10">
       {data && !isLoading && (

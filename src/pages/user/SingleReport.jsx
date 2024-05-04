@@ -1,21 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleComplaint } from "../../services/complaint";
-// import { getUserProfile } from "../../services/auth";
+import { getUserProfile } from "../../services/auth";
 import { formatDate } from "../../utils/helpers";
 import Button from "../../ui/shared/Button";
 import Spinner from "../../ui/components/Spinner";
+import AppContext from "../../contexts/AppContext";
 
 function SingleReport() {
   const { id } = useParams();
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["getSingleComplaints"],
-  //   queryFn: () => getSingleComplaint(id),
-  // });
+  const { userId } = useContext(AppContext);
+  const { data, isLoading } = useQuery({
+    queryKey: ["singleComplaints"],
+    queryFn: async () => getSingleComplaint(id),
+  });
   const { data: profileData } = useQuery({
-    queryKey: ["getUserProfiles"],
-    queryFn: getUserProfile,
+    queryKey: ["profiles"],
+    queryFn: async () => getUserProfile(userId),
   });
   const [isImage, setIsImage] = useState(false);
   const [isPdf, setIsPdf] = useState(false);
