@@ -8,6 +8,7 @@ import {
 } from "firebase/storage";
 
 const apiDomain = "https://api.devtopia.one";
+// const apiDomain = "http://localhost:5023";
 
 export const createComplaint = async (complaint, file) => {
   try {
@@ -41,6 +42,15 @@ export const createComplaint = async (complaint, file) => {
     return error.response;
   }
 };
+
+// export const updateComplaint = async (complaintId) => {
+//   try {
+//     const response = await axios.put();
+//   } catch (error) {
+//     console.error(error);
+//     return error.response;
+//   }
+// };
 
 export const getSingleComplaint = async (id) => {
   try {
@@ -155,7 +165,26 @@ export const uploadToFirebase = async (file, complaintId) => {
   }
 };
 
-export const updateInFirebase = async () => {};
+// export const updateInFirebase = async (complaintId, oldFileUrl, newfile) => {
+//   try {
+//     const urlObj = new URL(oldFileUrl);
+//     const pathname = urlObj.pathname;
+//     const filename = pathname.split("/").pop();
+//     const extension = filename.split(".").pop();
+//     const filePath = `user-file/${complaintId}.${extension}`;
+//     const fileRef = ref(storage, filePath);
+//     deleteObject(fileRef);
+//     const newFileRef = ref(
+//       storage,
+//       `user-file/${complaintId}.${newfile.name.split(".").pop()}`
+//     );
+//     await uploadBytes(newFileRef, newfile);
+//     return await getDownloadURL(newFileRef);
+//   } catch (error) {
+//     console.log(error);
+//     return null;
+//   }
+// };
 
 export const deleteFromFirebase = async (complaintId, fileUrl) => {
   const urlObj = new URL(fileUrl);

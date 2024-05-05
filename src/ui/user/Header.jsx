@@ -1,15 +1,18 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { signOutAccount } from "../../services/auth";
+import { getUserProfile } from "../../services/auth";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../shared/Button";
 import Logo from "../../assets/Logo.png";
+import AppContext from "../../contexts/AppContext";
 
 function Header() {
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["getUserProfiles"],
-  //   queryFn: getUserProfile,
-  // });
+  const { userId } = useContext(AppContext);
+  const { data, isLoading } = useQuery({
+    queryKey: ["profiles"],
+    queryFn: async () => getUserProfile(userId),
+  });
   const [isOpen, setIsOpen] = useState(false);
   const avatarRef = useRef();
   useEffect(() => {
@@ -39,26 +42,36 @@ function Header() {
         <Link to="/">
           <img src={Logo} alt="Logo" className="w-16" />
         </Link>
-        <div className="relative flex items-center" ref={avatarRef}>
-          <button className="rounded-full" onClick={toggleDropdown}>
-            <img
-              src={
-                // data?.imageUrl ||
-                "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
-              }
-              alt="avatar"
-              className="rounded-full w-12 h-12 object-cover"
-            />
-          </button>
-          {isOpen && (
-            <div className="absolute w-[150px] right-[2px] top-14 bg-white border border-gray-200 shadow rounded-xl p-2 flex flex-col gap-2 items-center">
-              <Link to="/profile" className="font-semibold hover:underline">
-                To Profile
-              </Link>
-              <Button onClick={signOut}>Log Out</Button>
-            </div>
-          )}
-        </div>
+        {isLoading ? (
+          <img
+            src={
+              "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+            }
+            alt="avatar"
+            className="rounded-full w-12 h-12 object-cover"
+          />
+        ) : (
+          <div className="relative flex items-center" ref={avatarRef}>
+            <button className="rounded-full" onClick={toggleDropdown}>
+              <img
+                src={
+                  data?.imageUrl ||
+                  "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+                }
+                alt="avatar"
+                className="rounded-full w-12 h-12 object-cover"
+              />
+            </button>
+            {isOpen && (
+              <div className="absolute w-[150px] right-[2px] top-14 bg-white border border-gray-200 shadow rounded-xl p-2 flex flex-col gap-2 items-center">
+                <Link to="/profile" className="font-semibold hover:underline">
+                  To Profile
+                </Link>
+                <Button onClick={signOut}>Log Out</Button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );

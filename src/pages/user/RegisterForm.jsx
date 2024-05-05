@@ -110,7 +110,6 @@ function RegisterForm() {
               type="file"
               onChange={onFileChange}
               isRequired={true}
-              // customClass="h-[200px] bg-[#ffffff]"
             />
           </div>
           <Button type="submit">Submit</Button>

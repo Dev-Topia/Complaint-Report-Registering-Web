@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { deleteComplaint, getSingleComplaint } from "../../services/complaint";
 import { getUserProfile } from "../../services/auth";
 import { formatDate } from "../../utils/helpers";
-import Button from "../../ui/shared/Button";
+// import Button from "../../ui/shared/Button";
 import Spinner from "../../ui/components/Spinner";
 import AppContext from "../../contexts/AppContext";
 
@@ -116,7 +116,7 @@ function SingleReport() {
                   </a>
                 )}
               </div>
-              <div className="border h-[1px]"></div>
+              {/* <div className="border h-[1px]"></div>
               <div className="flex gap-4 justify-end">
                 <Button customClass="bg-blue-500 hover:bg-blue-700">
                   Edit
@@ -127,7 +127,7 @@ function SingleReport() {
                 >
                   Delete
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
