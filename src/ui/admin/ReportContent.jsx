@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { formatDate } from "../../utils/helpers";
 import Button from "../shared/Button";
 
@@ -6,7 +5,6 @@ function ReportContent({ data }) {
   const isImage =
     data.fileUrl && data.fileUrl.match(/\.(jpeg|jpg|gif|png)(\?.*)?$/i);
   const isPdf = data.fileUrl && data.fileUrl.match(/\.pdf(\?.*)?$/i);
-  const [showPdf, setShowPdf] = useState(false);
   return (
     <div className="h-full flex flex-col gap-4 p-4 justify-between">
       <div className="flex flex-col gap-4">
@@ -37,7 +35,7 @@ function ReportContent({ data }) {
           <div>
             <span
               className={`px-4 py-2 rounded-full ${
-                data.status === "Posted" && "bg-green-400"
+                data.status === "Posted" && "bg-yellow-400"
               } ${data.status === "Reviewed" && "bg-yellow-400"}
               ${data.status === "Finished" && "bg-green-400"}`}
             >
@@ -48,7 +46,11 @@ function ReportContent({ data }) {
         <div className="border h-[1px]"></div>
         <div className="flex flex-col gap-4">
           <p>{data.description}</p>
-          {isImage && <img src={data.fileUrl} alt="File" className="w-72" />}
+          {isImage && (
+            <a href={data.fileUrl} target="_blank">
+              <img src={data.fileUrl} alt="File" className="w-72" />
+            </a>
+          )}
           {isPdf && (
             <a
               href={data.fileUrl}
@@ -64,7 +66,7 @@ function ReportContent({ data }) {
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-4 items-end">
+      <div className="flex flex-col gap-4 items-end sticky bottom-0 right-0 z-40">
         <textarea
           className="p-4 border rounded-xl w-full"
           placeholder="Reply"

@@ -4,13 +4,16 @@ import {
   deleteComplaintType,
 } from "../../services/complaint";
 import Button from "../../ui/shared/Button";
-// import Spinner from "../../ui/"
+import Spinner from "../../ui/components/Spinner";
 
 function Setting() {
   const { data: complaintTypes, isLoading } = useQuery({
     queryKey: ["getAllComplaintTypeKey"],
     queryFn: getAllComplaintType,
   });
+  if (isLoading) {
+    return <Spinner fullScreenSpinner={true} />;
+  }
   return (
     <section className="p-4 h-[500px]">
       <div className="flex flex-col md:flex-row gap-4">
@@ -56,9 +59,6 @@ function Setting() {
             </table>
           </div>
         </div>
-        {/* <div className="w-full md:w-1/2 p-4 bg-white border border-gray-200 shadow rounded-xl">
-          <div>Hello</div>
-        </div> */}
       </div>
     </section>
   );

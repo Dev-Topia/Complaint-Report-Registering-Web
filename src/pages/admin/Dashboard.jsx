@@ -1,16 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllComplaint } from "../../services/complaint";
 import { getUsers } from "../../services/user";
+import Spinner from "../../ui/components/Spinner";
 
 function Dashboard() {
   const { data: complaints, isLoading } = useQuery({
-    queryKey: ["getAllComplaintKey"],
+    queryKey: ["allComplaints"],
     queryFn: getAllComplaint,
   });
-  const { data: users } = useQuery({
-    queryKey: ["getAllUserKey"],
+  const { data: users, isLoading: userLoading } = useQuery({
+    queryKey: ["users"],
     queryFn: getUsers,
   });
+  if (isLoading || userLoading) {
+    return <Spinner fullScreenSpinner={true} />;
+  }
   return (
     <div className="p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 xl:gap-10">

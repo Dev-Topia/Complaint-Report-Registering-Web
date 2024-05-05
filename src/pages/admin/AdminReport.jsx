@@ -4,6 +4,7 @@ import { getAllComplaint } from "../../services/complaint";
 import AppContext from "../../contexts/AppContext";
 import ReportCard from "../../ui/admin/ReportCard";
 import ReportContent from "../../ui/admin/ReportContent";
+import Spinner from "../../ui/components/Spinner";
 
 function AdminReport() {
   const { singleComplaint } = useContext(AppContext);
@@ -12,7 +13,7 @@ function AdminReport() {
     queryFn: getAllComplaint,
   });
   if (isLoading) {
-    return <h1>loading</h1>;
+    return <Spinner fullScreenSpinner={true} />;
   }
   return (
     <div className="flex gap-4">

@@ -7,7 +7,7 @@ function AdminLayout() {
   return (
     <div className="flex flex-col xl:flex-row">
       <Sidebar />
-      <main className="w-full">
+      <main className="w-full mb-[50px] xl:mb-0">
         <Header />
         <Outlet />
       </main>

@@ -7,8 +7,8 @@ import {
   deleteObject,
 } from "firebase/storage";
 
-const apiDomain = "https://api.devtopia.one";
-// const apiDomain = "http://localhost:5023";
+// const apiDomain = "https://api.devtopia.one";
+const apiDomain = "http://localhost:5023";
 
 export const getUsers = async () => {
   try {
@@ -53,6 +53,28 @@ export const updateUser = async (userUpdate) => {
   }
 };
 
+export const deleteUser = async (user) => {
+  try {
+    if (user.imageUrl) {
+      await deleteFromFirebase(user.userId);
+    }
+    const res = await axios.delete(
+      `${apiDomain}/api/User/delete-user/${user.userId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return res;
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+};
+
 export const uploadToFirebase = async (file, userId) => {
   try {
     const fileRef = ref(storage, `user-profile/${userId}`);
@@ -66,6 +88,16 @@ export const uploadToFirebase = async (file, userId) => {
     return newFileUrl;
   } catch (error) {
     console.error(error);
+    return false;
+  }
+};
+
+export const deleteFromFirebase = async (userId) => {
+  try {
+    const profileImgRef = ref(storage, `user-profile/${userId}`);
+    await deleteObject(profileImgRef);
+  } catch (error) {
+    console.error(`Failed to delete file for user ${userId}: ${error}`);
     return false;
   }
 };
