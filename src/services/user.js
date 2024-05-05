@@ -7,7 +7,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 
-const apiDomain = "http://localhost:5023";
+const apiDomain = "https://api.devtopia.one";
 
 export const getUsers = async () => {
   try {
@@ -25,27 +25,8 @@ export const getUsers = async () => {
   }
 };
 
-export const uploadToFirebase = async (file, userId) => {
-  try {
-    const fileRef = ref(storage, `user-profile/${userId}`);
-    const fileUrl = await getDownloadURL(fileRef).catch(() => null);
-    if (fileUrl) {
-      await deleteObject(fileRef);
-    }
-    await uploadBytes(fileRef, file);
-    const newFileUrl = await getDownloadURL(fileRef);
-    console.log(newFileUrl);
-    return newFileUrl;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-};
-
 export const updateUser = async (userUpdate) => {
   try {
-    // const imageUrl = await uploadToFirebase(userUpdate.imageUrl);
-    // userUpdate.imageUrl = imageUrl;
     if (userUpdate.imageUrl instanceof File) {
       const imageUrl = await uploadToFirebase(
         userUpdate.imageUrl,
@@ -68,5 +49,22 @@ export const updateUser = async (userUpdate) => {
   } catch (error) {
     console.error(error);
     return error.response;
+  }
+};
+
+export const uploadToFirebase = async (file, userId) => {
+  try {
+    const fileRef = ref(storage, `user-profile/${userId}`);
+    const fileUrl = await getDownloadURL(fileRef).catch(() => null);
+    if (fileUrl) {
+      await deleteObject(fileRef);
+    }
+    await uploadBytes(fileRef, file);
+    const newFileUrl = await getDownloadURL(fileRef);
+    console.log(newFileUrl);
+    return newFileUrl;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 };

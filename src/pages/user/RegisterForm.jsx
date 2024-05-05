@@ -38,14 +38,14 @@ function RegisterForm() {
     const res = await createComplaint(inputData, file);
     if (res.status == 200) {
       setModalMessage(res.data?.msg);
-      setLoading(false);
       setOpenModal(!openModal);
     }
+    setLoading(false);
   };
   const handleModal = (state) => {
     setOpenModal(state);
   };
-  if (isLoading) {
+  if (isLoading || loading) {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (

@@ -36,6 +36,7 @@ function Profile() {
         lastName: data.lastName,
         phoneNumber: data.phoneNumber,
         imageUrl: imgUrl,
+        userId: data.userId,
       });
     }
   }, [data, imgUrl]);
@@ -68,6 +69,7 @@ function Profile() {
         setWarningMessage("No changes were made");
         setLoading(false);
       } else {
+        console.log(inputData);
         const res = await updateUser(inputData);
         if (res.status === 200) {
           setMessage(res.data.msg);

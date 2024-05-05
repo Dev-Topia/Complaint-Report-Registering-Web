@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getSingleComplaint } from "../../services/complaint";
+import { deleteComplaint, getSingleComplaint } from "../../services/complaint";
 import { getUserProfile } from "../../services/auth";
 import { formatDate } from "../../utils/helpers";
 import Button from "../../ui/shared/Button";
@@ -29,7 +29,18 @@ function SingleReport() {
       setIsPdf(data?.data.data.fileUrl.match(/\.pdf(\?.*)?$/i));
     }
   }, [data]);
-  if (isLoading) {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const res = await deleteComplaint(id, data?.data.data.fileUrl);
+    if (res.status === 200) {
+      navigate("/profile");
+    }
+    setLoading(false);
+  };
+  if (isLoading || loading) {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (
@@ -77,11 +88,13 @@ function SingleReport() {
                   <p>{data?.data.data.description}</p>
                 </div>
                 {isImage && (
-                  <img
-                    src={data?.data.data.fileUrl}
-                    alt="File"
-                    className="w-72"
-                  />
+                  <a href={data?.data.data.fileUrl} target="_blank">
+                    <img
+                      src={data?.data.data.fileUrl}
+                      alt="File"
+                      className="w-72"
+                    />
+                  </a>
                 )}
                 {isPdf && (
                   <a
@@ -108,7 +121,10 @@ function SingleReport() {
                 <Button customClass="bg-blue-500 hover:bg-blue-700">
                   Edit
                 </Button>
-                <Button customClass="bg-red-500 hover:bg-red-700">
+                <Button
+                  onClick={handleDelete}
+                  customClass="bg-red-500 hover:bg-red-700"
+                >
                   Delete
                 </Button>
               </div>

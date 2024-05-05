@@ -1,16 +1,32 @@
 import axios from "axios";
 import { storage } from "../firebase.config";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 
-const apiDomain = "http://localhost:5023";
+const apiDomain = "https://api.devtopia.one";
 
 export const createComplaint = async (complaint, file) => {
   try {
-    const fileUrl = await uploadToFirebase(file);
-    complaint.fileUrl = fileUrl;
     const response = await axios.post(
       `${apiDomain}/api/Complaint/register-complaint`,
-      complaint,
+      { ...complaint, fileUrl: "" },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    const complaintId = response.data.complaintId;
+    const fileUrlToUpload = await uploadToFirebase(file, complaintId);
+    await axios.put(
+      `${apiDomain}/api/Complaint/update-complaint/${complaintId}`,
+      { ...complaint, fileUrl: fileUrlToUpload },
       {
         headers: {
           "Content-Type": "application/json",
@@ -23,18 +39,6 @@ export const createComplaint = async (complaint, file) => {
   } catch (error) {
     console.error(error);
     return error.response;
-  }
-};
-
-export const uploadToFirebase = async (file) => {
-  try {
-    const fileRef = ref(storage, `user-file/${Date.now()}-${file.name}`);
-    await uploadBytes(fileRef, file);
-    const fileUrl = await getDownloadURL(fileRef);
-    return fileUrl;
-  } catch (error) {
-    console.error(error);
-    return false;
   }
 };
 
@@ -95,6 +99,26 @@ export const getAllComplaintType = async () => {
   }
 };
 
+export const deleteComplaint = async (complaintId, fileUrl) => {
+  try {
+    await deleteFromFirebase(complaintId, fileUrl);
+    const response = await axios.delete(
+      `${apiDomain}/api/Complaint/delete-complaint/${complaintId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+};
+
 export const deleteComplaintType = async (complaintTypeId) => {
   try {
     const response = await axios.delete(
@@ -114,4 +138,31 @@ export const deleteComplaintType = async (complaintTypeId) => {
     console.error(error);
     return error.response;
   }
+};
+
+export const uploadToFirebase = async (file, complaintId) => {
+  try {
+    const fileRef = ref(
+      storage,
+      `user-file/${complaintId}.${file.name.split(".").pop()}`
+    );
+    await uploadBytes(fileRef, file);
+    const fileUrl = await getDownloadURL(fileRef);
+    return fileUrl;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+export const updateInFirebase = async () => {};
+
+export const deleteFromFirebase = async (complaintId, fileUrl) => {
+  const urlObj = new URL(fileUrl);
+  const pathname = urlObj.pathname;
+  const filename = pathname.split("/").pop();
+  const extension = filename.split(".").pop();
+  const filePath = `user-file/${complaintId}.${extension}`;
+  const ImageRef = ref(storage, filePath);
+  await deleteObject(ImageRef);
 };
