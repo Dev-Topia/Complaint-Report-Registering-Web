@@ -1,15 +1,23 @@
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Input from "../../ui/shared/Input";
 import Button from "../../ui/shared/Button";
 import Logo from "../../assets/Logo.png";
+import {useContext, useEffect} from "react";
+import AppContext from "../../contexts/AppContext.jsx";
 
 function ForgetPassword() {
+  const {token} = useContext(AppContext);
   const onSubmit = (e) => {
     e.preventDefault();
   };
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
   const navigateToSignIn = () => {
-    Navigate("/signin");
+    navigate("/signin");
   };
   return (
     <div className="h-screen flex flex-col justify-center items-center p-4 md:p-0">
