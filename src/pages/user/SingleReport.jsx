@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleComplaint } from "../../services/complaint";
 import { getUserProfile } from "../../services/auth";
-import { formatDate } from "../../utils/helpers";
+import { formatDate } from "../../lib/helpers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
