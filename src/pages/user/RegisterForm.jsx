@@ -1,10 +1,37 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createComplaint, getAllComplaintType } from "../../services/complaint";
-import Input from "../../ui/shared/Input";
-import Button from "../../ui/shared/Button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import Spinner from "../../ui/components/Spinner";
-import Modal from "../../ui/components/Modal";
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 3000));
 
 function RegisterForm() {
   const { data: complaintType, isLoading } = useQuery({
@@ -12,8 +39,7 @@ function RegisterForm() {
     queryFn: getAllComplaintType,
   });
   const [loading, setLoading] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
   const [file, setFile] = useState("");
   const onFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -23,7 +49,7 @@ function RegisterForm() {
     complaintTypeId: 0,
     statusTypeId: 1,
     description: "",
-    fileUrl: "",
+    file: "",
   });
   const onChange = (e) => {
     e.preventDefault();
@@ -32,90 +58,121 @@ function RegisterForm() {
       [e.target.id]: e.target.value,
     }));
   };
+  const [open, setOpen] = useState(false);
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    if (
+      inputData.title === "" &&
+      inputData.complaintTypeId === 0 &&
+      inputData.description === "" &&
+      file === ""
+    ) {
+      setOpen(true);
+      setAlertMessage("All fields are required!");
+      wait().then(() => setOpen(false));
+      setLoading(false);
+      return;
+    }
     const res = await createComplaint(inputData, file);
-    if (res.status == 200) {
-      setModalMessage(res.data?.msg);
-      setOpenModal(!openModal);
+    if (res.status === 200) {
+      setOpen(true);
+      setAlertMessage(res.data?.msg);
+      wait().then(() => setOpen(false));
+    } else {
+      setOpen(true);
+      setAlertMessage(res.message);
+      wait().then(() => setOpen(false));
     }
     setLoading(false);
-  };
-  const handleModal = (state) => {
-    setOpenModal(state);
   };
   if (isLoading || loading) {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (
-    <>
-      {openModal && (
-        <Modal handleModal={handleModal}>
-          <h2 className="text-lg font-semibold">{modalMessage}</h2>
-        </Modal>
-      )}
-      <div className="p-4 md:p-10 xl:px-0">
-        <form
-          onSubmit={onSubmit}
-          className="bg-white border border-gray-200 shadow flex flex-col items-center p-10 gap-4"
-        >
-          {loading && <Spinner fullScreenSpinner={true} />}
-          <h1 className="font-bold text-2xl md:text-4xl mb-4 md:mb-10">
+    <section className="p-6 md:p-10">
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{alertMessage}</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <Card className="bg-white">
+        <CardHeader>
+          <CardTitle className="text-4xl font-bold">
             Register Complaint
-          </h1>
-          <div className="flex flex-col md:flex-row gap-4 w-full justify-center">
-            <div className="w-full md:w-1/2">
-              <Input
-                title="Title"
-                id="title"
-                placeholder="Title"
-                onChange={onChange}
+          </CardTitle>
+        </CardHeader>
+        <form onSubmit={onSubmit}>
+          <CardContent>
+            <div className="flex flex-col md:flex-row gap-6 mb-6">
+              <div className="w-full space-y-2">
+                <Label>Title</Label>
+                <Input
+                  type="text"
+                  id="title"
+                  onChange={onChange}
+                  placeholder="Title"
+                />
+              </div>
+              <div className="w-full space-y-2">
+                <Label>Type</Label>
+                <Select
+                  onValueChange={(id) => {
+                    setInputData((prevState) => ({
+                      ...prevState,
+                      complaintTypeId: parseInt(id),
+                    }));
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {complaintType?.data.data.map((type, index) => (
+                        <SelectItem
+                          key={index}
+                          value={type.complaintTypeId.toString()}
+                        >
+                          {type.complaintType}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-2 mb-6">
+              <Label>Description</Label>
+              <Textarea
                 type="text"
-                isRequired={true}
+                id="description"
+                onChange={onChange}
+                placeholder="Description"
               />
             </div>
-            <div className="flex flex-col gap-2 w-full md:w-1/2">
-              <label htmlFor="complaintType">Type</label>
-              <select
-                id="complaintTypeId"
-                className="form-select block rounded-xl w-full py-2 px-4 border-2"
-                required
-                onChange={onChange}
-              >
-                <option value="">Select</option>
-                {complaintType?.data.data.map((type, index) => (
-                  <option key={index} value={type.complaintTypeId}>
-                    {type.complaintType}
-                  </option>
-                ))}
-              </select>
+            <div className="space-y-2">
+              <Label>File</Label>
+              <Input type="file" id="file" onChange={onFileChange} />
             </div>
-          </div>
-          <div className="w-full flex flex-col gap-2">
-            <label>Description</label>
-            <textarea
-              name="description"
-              id="description"
-              rows="5"
-              onChange={onChange}
-              className="p-4 border-2 rounded-xl"
-              required
-            ></textarea>
-          </div>
-          <div className="w-full">
-            <Input
-              title="Image && Proof"
-              id="file"
-              type="file"
-              onChange={onFileChange}
-              isRequired={true}
-            />
-          </div>
-          <Button type="submit">Submit</Button>
+          </CardContent>
+          <CardFooter>
+            <Button
+              type="submit"
+              className="ml-auto bg-[#227F4B] text-white"
+              variant="outline"
+            >
+              Submit
+            </Button>
+          </CardFooter>
         </form>
-      </div>
-    </>
+      </Card>
+    </section>
   );
 }
 
