@@ -57,7 +57,6 @@ function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Link to="/profile">Profile</Link>
             </DropdownMenuItem>

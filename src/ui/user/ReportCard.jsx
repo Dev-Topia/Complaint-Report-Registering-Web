@@ -1,43 +1,93 @@
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { formatDate } from "../../utils/helpers";
 
 function ReportCard({ data, userData }) {
+  const [isImage, setIsImage] = useState(false);
+  const [isPdf, setIsPdf] = useState(false);
+  useEffect(() => {
+    if (data.fileUrl) {
+      setIsImage(data.fileUrl.match(/\.(jpeg|jpg|gif|png)(\?.*)?$/i));
+      setIsPdf(data.fileUrl.match(/\.pdf(\?.*)?$/i));
+    }
+  }, []);
+  const [extendReport, setExtendReport] = useState(false);
+  const handleExtendReport = () => {
+    setExtendReport(!extendReport);
+  };
   return (
-    <Link
-      to={`/report/${data.complaintId}`}
-      className="w-full p-4 flex flex-col gap-2 bg-white border border-gray-200 shadow rounded-xl"
-    >
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          {/* <div className="w-8 h-8 bg-[#d9d9d9] rounded-full"></div> */}
-          <img
-            src={
-              userData.imageUrl ||
-              "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
-            }
-            alt="Profile Image"
-            className="rounded-full w-8 h-8 object-cover"
-          />
-          <span>
-            {userData.firstName} {userData.lastName}
-          </span>
-        </div>
-        <span className="text-gray-400">{formatDate(data.createdAt)}</span>
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <div>
-            <h2 className="text-2xl font-semibold">{data.title}</h2>
-            <h3 className="text-sm">{data.complaintType}</h3>
+    // <Link to={`/report/${data.complaintId}`}>
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex justify-between items-center text-base font-normal">
+          <div className="flex items-center gap-4">
+            <Avatar>
+              <AvatarImage
+                src={userData.imageUrl || "https://github.com/shadcn.png"}
+              />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span>
+                {userData.firstName} {userData.lastName}
+              </span>
+              <span className="font-semibold">{userData.email}</span>
+            </div>
           </div>
-          <span className="bg-yellow-400 px-4 py-1 rounded-full">
-            {data.status}
-          </span>
+          <span className="text-gray-400">{formatDate(data.createdAt)}</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-2xl font-semibold">{data.title}</h2>
+              <h3 className="text-sm">{data.complaintType}</h3>
+            </div>
+            <Badge className="text-md" variant="outline">
+              {data.status}
+            </Badge>
+          </div>
+          {extendReport && (
+            <>
+              <div className="border h-[1px]"></div>
+              <p>{data.description}</p>
+              {isImage && (
+                <a
+                  href={data.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={data.fileUrl} alt="File" className="w-72" />
+                </a>
+              )}
+              {isPdf && (
+                <a
+                  href={data.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-72 relative block overflow-hidden"
+                >
+                  <span className="absolute inset-0"></span>
+                  <object data={data.fileUrl} type="application/pdf">
+                    <embed src={data.fileUrl} type="application/pdf" />
+                  </object>
+                </a>
+              )}
+            </>
+          )}
+          <button
+            className="text-sm text-gray-400"
+            onClick={handleExtendReport}
+          >
+            {extendReport ? "Show Less" : "Show More"}
+          </button>
         </div>
-        <div className="border h-[1px]"></div>
-        <p>{data.description}</p>
-      </div>
-    </Link>
+      </CardContent>
+    </Card>
+    // </Link>
   );
 }
 
