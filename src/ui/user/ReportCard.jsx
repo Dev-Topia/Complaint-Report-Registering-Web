@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { formatDate } from "../../utils/helpers";
+import { formatDate } from "../../lib/helpers";
 
 function ReportCard({ data, userData }) {
   const [isImage, setIsImage] = useState(false);

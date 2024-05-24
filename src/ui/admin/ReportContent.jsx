@@ -1,4 +1,4 @@
-import { formatDate } from "../../utils/helpers";
+import { formatDate } from "../../lib/helpers";
 import Button from "../shared/Button";
 
 function ReportContent({ data }) {

@@ -1,4 +1,4 @@
-import { formatDate } from "../../utils/helpers";
+import { formatDate } from "../../lib/helpers";
 import { useContext } from "react";
 import AppContext from "../../contexts/AppContext";
 
