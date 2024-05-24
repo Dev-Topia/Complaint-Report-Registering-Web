@@ -6,10 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { SquarePen, Save } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import AppContext from "@/contexts/AppContext";
 import Spinner from "@/ui/components/Spinner";
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 3000));
+const wait = () => new Promise((resolve) => setTimeout(resolve, 2000));
 
 function ProfileSection() {
   const { userId } = useContext(AppContext);
@@ -99,21 +100,45 @@ function ProfileSection() {
           </div>
         ) : (
           <>
-            {message && (
-              <div className="p-4 mb-4 bg-green-200 text-green-500 rounded-xl">
-                {message}
-              </div>
-            )}
-            {warningMessage && (
-              <div className="p-4 mb-4 bg-yellow-200 text-yellow-500 rounded-xl">
-                {warningMessage}
-              </div>
-            )}
-            {errorMessage && (
-              <div className="p-4 mb-4 bg-red-200 text-red-500 rounded-xl">
-                {errorMessage}
-              </div>
-            )}
+            <AnimatePresence>
+              {message && (
+                <motion.div
+                  className="p-4 mb-4 bg-green-200 text-green-500 rounded-xl"
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {message}
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {warningMessage && (
+                <motion.div
+                  className="p-4 mb-4 bg-yellow-200 text-yellow-500 rounded-xl"
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {warningMessage}
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {errorMessage && (
+                <motion.div
+                  className="p-4 mb-4 bg-red-200 text-red-500 rounded-xl"
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {errorMessage}
+                </motion.div>
+              )}
+            </AnimatePresence>
             <div className="flex flex-col md:flex-row justify-between gap-6">
               <div className="flex flex-col gap-4 justify-center items-center">
                 <div className="relative inline-block">
