@@ -1,8 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Eye, EyeOff } from "lucide-react";
 
 function Input({
   title,
@@ -16,7 +14,7 @@ function Input({
   customClass,
 }) {
   const defaultClass =
-    "rounded-xl w-full py-2 px-4 border-2 focus:outline-none focus:ring focus:border-[#227F4B]";
+    "rounded-lg w-full py-2 px-4 border focus:outline-none focus:ring focus:border-[#227F4B]";
   const buttonClass = customClass
     ? `${defaultClass} ${customClass}`
     : defaultClass;
@@ -29,13 +27,13 @@ function Input({
   };
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-sm md:text-base">
+      <label htmlFor={id} className="text-sm font-semibold">
         {title}
       </label>
       <div className="relative flex">
         <input
           type={isPassword && ShowPassword ? "text" : type}
-          placeholder={isPassword && ShowPassword ? "password" : placeholder}
+          placeholder={isPassword && ShowPassword ? "Password" : placeholder}
           id={id}
           onChange={onChange}
           required={isRequired}
@@ -50,15 +48,9 @@ function Input({
             className="svg-size absolute top-[12px] right-3"
           >
             {ShowPassword ? (
-              <FontAwesomeIcon
-                icon={faEye}
-                className="text-[#227F4B] w-5 h-5"
-              />
+              <Eye className="h-5 w-5 text-[#227F4B]" />
             ) : (
-              <FontAwesomeIcon
-                icon={faEyeSlash}
-                className="text-[#227F4B] w-5 h-5"
-              />
+              <EyeOff className="h-5 w-5 text-[#227F4B]" />
             )}
           </button>
         )}
