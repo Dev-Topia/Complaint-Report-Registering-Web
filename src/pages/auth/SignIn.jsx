@@ -1,11 +1,23 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInAccount } from "../../services/auth";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import CustomInput from "@/ui/shared/Input";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 import AppContext from "../../contexts/AppContext";
 import Logo from "../../assets/Logo.png";
-import Input from "../../ui/shared/Input";
-import Button from "../../ui/shared/Button";
 import Spinner from "../../ui/components/Spinner";
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 10000));
 
 function SignIn() {
   const { dispatch, token } = useContext(AppContext);
@@ -37,68 +49,84 @@ function SignIn() {
       navigate("/");
     } else {
       setErrorMessage(res.data.msg);
+      setLoading(false);
+      wait().then(() => setErrorMessage(""));
     }
-    setLoading(false);
   };
   if (loading) {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (
-    <div className="h-screen flex flex-col justify-center items-center p-4 md:p-0">
-      <form
-        onSubmit={onSubmit}
-        className="w-full md:w-[500px] border border-gray-200 shadow bg-white p-10 flex flex-col gap-4"
-      >
-        <div className="flex flex-col items-center">
+    <section className="h-screen flex flex-col justify-center items-center p-6 md:p-0">
+      <Card className="w-full md:w-[500px]">
+        <CardHeader className="flex flex-col items-center">
           <img src={Logo} alt="Logo" width={100} />
-          <h1 className="text-2xl md:text-4xl font-bold">Sign In</h1>
-        </div>
-        <div className="flex flex-col gap-4">
-          {errorMessage && (
-            <p className="text-sm bg-red-200 text-red-500 p-4 rounded-xl">
-              {errorMessage}
+          <CardTitle className="text-2xl md:text-4xl font-bold">
+            Sign In
+          </CardTitle>
+        </CardHeader>
+        <form onSubmit={onSubmit}>
+          <CardContent>
+            <div className="space-y-6">
+              <AnimatePresence>
+                {errorMessage && (
+                  <motion.div
+                    className="text-sm bg-red-200 text-red-500 p-4 rounded-xl"
+                    initial={{ opacity: 0, y: -50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -50 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {errorMessage}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div className="space-y-2">
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  id="email"
+                  onChange={onChange}
+                  placeholder="example@gmail.com"
+                />
+              </div>
+              <CustomInput
+                title="Password"
+                id="password"
+                placeholder="********"
+                onChange={onChange}
+                type="password"
+                isRequired={true}
+              />
+              {/* <Link
+                to="/forgetpassword"
+                className="inline-block text-right text-gray-400 hover:text-[#227F4B] hover:underline"
+              >
+                Forget Password
+              </Link> */}
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col gap-6">
+            <Button
+              type="submit"
+              className="w-full bg-[#227F4B] text-white"
+              variant="outline"
+            >
+              Sign In
+            </Button>
+            <p className="text-center">
+              Don't Have Account?{" "}
+              <Link
+                to="/signup"
+                className="text-gray-400 hover:text-[#227F4B] hover:underline"
+              >
+                Sign Up
+              </Link>
             </p>
-          )}
-          <Input
-            title="Email"
-            id="email"
-            placeholder="example@gmail.com"
-            onChange={onChange}
-            type="email"
-            isRequired={true}
-          />
-
-          <Input
-            title="Password"
-            id="password"
-            placeholder="********"
-            onChange={onChange}
-            type="password"
-            isRequired={true}
-          />
-        </div>
-        <Link
-          to="/forgetpassword"
-          className="text-right text-gray-400 hover:text-[#227F4B] hover:underline"
-        >
-          Forget Password
-        </Link>
-
-        <Button type="submit" customClass="md:w-full">
-          LogIn
-        </Button>
-
-        <p className="text-center">
-          Don't Have Account?{" "}
-          <Link
-            to="/signup"
-            className="text-gray-400 hover:text-[#227F4B] hover:underline"
-          >
-            Sign Up
-          </Link>
-        </p>
-      </form>
-    </div>
+          </CardFooter>
+        </form>
+      </Card>
+    </section>
   );
 }
 
