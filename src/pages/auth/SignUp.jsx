@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../../assets/Logo.png";
 import AppContext from "../../contexts/AppContext.jsx";
-import Spinner from "@/ui/components/Spinner";
+import Spinner from "@/components/Spinner";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 10000));
 

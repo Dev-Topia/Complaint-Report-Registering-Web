@@ -29,7 +29,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import Spinner from "../../ui/components/Spinner";
+import Spinner from "../../components/Spinner";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 3000));
 

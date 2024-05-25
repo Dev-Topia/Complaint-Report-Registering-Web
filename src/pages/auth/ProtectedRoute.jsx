@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import AppContext from "../../contexts/AppContext";
-import Spinner from "../../ui/components/Spinner";
+import Spinner from "../../components/Spinner";
 
 function ProtectedRoute() {
   const { token } = useContext(AppContext);

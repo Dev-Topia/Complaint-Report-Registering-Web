@@ -3,9 +3,9 @@ import { useEffect, useContext, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getUserDataFromToken } from "./services/auth";
 import AppContext from "./contexts/AppContext";
-import AppLayout from "./ui/AppLayout";
+import AppLayout from "./components/AppLayout";
 import RegisterForm from "./pages/user/RegisterForm";
-import AdminLayout from "./ui/AdminLayout";
+import AdminLayout from "./components/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminReport from "./pages/admin/AdminReport";
 import SignIn from "./pages/auth/SignIn";
@@ -16,7 +16,7 @@ import ProtectedRoute from "./pages/auth/ProtectedRoute";
 import Profile from "./pages/user/Profile";
 import Setting from "./pages/admin/Setting";
 import User from "./pages/admin/User";
-import Spinner from "./ui/components/Spinner";
+import Spinner from "./components/Spinner";
 
 const queryClient = new QueryClient();
 

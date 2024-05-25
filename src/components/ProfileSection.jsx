@@ -8,7 +8,7 @@ import { Label } from "./ui/label";
 import { SquarePen, Save } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AppContext from "@/contexts/AppContext";
-import Spinner from "@/ui/components/Spinner";
+import Spinner from "@/components/Spinner";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 2000));
 

@@ -4,7 +4,7 @@ import { deleteUser, getUsers } from "../../services/user";
 import { signUpAccount } from "../../services/auth";
 import Input from "../../ui/shared/Input";
 import Button from "../../ui/shared/Button";
-import Spinner from "../../ui/components/Spinner";
+import Spinner from "../../components/Spinner";
 
 function User() {
   const { data: users, isLoading } = useQuery({

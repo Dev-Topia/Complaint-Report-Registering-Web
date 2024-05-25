@@ -20,7 +20,7 @@ import {
 
 import AppContext from "@/contexts/AppContext";
 import ReportCard from "@/ui/user/ReportCard";
-import Spinner from "@/ui/components/Spinner";
+import Spinner from "@/components/Spinner";
 
 function ComplaintSection() {
   const { userId } = useContext(AppContext);

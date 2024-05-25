@@ -4,7 +4,7 @@ import {
   deleteComplaintType,
 } from "../../services/complaint";
 import Button from "../../ui/shared/Button";
-import Spinner from "../../ui/components/Spinner";
+import Spinner from "../../components/Spinner";
 
 function Setting() {
   const { data: complaintTypes, isLoading } = useQuery({

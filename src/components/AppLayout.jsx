@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Header from "./user/Header";
+import Header from "@/ui/user/Header";
 
 function AppLayout() {
   return (

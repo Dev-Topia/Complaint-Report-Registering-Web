@@ -7,7 +7,7 @@ import { formatDate } from "../../lib/helpers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import Spinner from "../../ui/components/Spinner";
+import Spinner from "../../components/Spinner";
 import AppContext from "../../contexts/AppContext";
 
 function SingleReport() {

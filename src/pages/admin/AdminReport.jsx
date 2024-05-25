@@ -1,10 +1,18 @@
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllComplaint } from "../../services/complaint";
+// import { Separator } from "@/components/ui/separator";
+import ReportDisplay from "@/components/ReportDisplay";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import { TooltipProvider } from "@/components/ui/tooltip";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ReportList from "@/components/ReportList";
 import AppContext from "../../contexts/AppContext";
-import ReportCard from "../../ui/admin/ReportCard";
-import ReportContent from "../../ui/admin/ReportContent";
-import Spinner from "../../ui/components/Spinner";
+import Spinner from "../../components/Spinner";
 
 function AdminReport() {
   const { singleComplaint } = useContext(AppContext);
@@ -16,30 +24,46 @@ function AdminReport() {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (
-    <div className="flex gap-4">
-      <div className="w-full md:w-1/2 flex flex-col md:overflow-y-auto md:h-[90vh] gap-4 p-4 md:pt-4 md:pl-4 md:pr-0">
-        {!isLoading && data?.data.data.length !== 0 ? (
-          data?.data.data.map((complaint, index) => (
-            <ReportCard key={index} data={complaint} />
-          ))
-        ) : (
-          <div className="h-full text-xl flex justify-center items-center">
-            <h1>No Report</h1>
-          </div>
-        )}
-      </div>
-      <div className="hidden md:block md:w-1/2 md:overflow-y-auto md:h-[90vh] py-4 pr-4">
-        <div className="h-full bg-white border border-gray-200 shadow rounded-xl">
-          {singleComplaint.complaintId ? (
-            <ReportContent data={singleComplaint} />
-          ) : (
-            <h1 className="text-xl flex justify-center items-center h-full">
-              No Report Selected
-            </h1>
-          )}
-        </div>
-      </div>
-    </div>
+    <TooltipProvider delayDuration={0}>
+      <ResizablePanelGroup
+        direction="horizontal"
+        className="h-full items-stretch"
+      >
+        <ResizablePanel>
+          <ReportList reports={data} />
+          {/* <Tabs defaultValue="all" className="h-screen">
+            <div className="flex items-center px-4 py-2 bg-white">
+              <h1 className="text-xl font-bold">Inbox</h1>
+              <TabsList className="ml-auto">
+                <TabsTrigger
+                  value="all"
+                  className="text-zinc-600 dark:text-zinc-200"
+                >
+                  All report
+                </TabsTrigger>
+                <TabsTrigger
+                  value="unread"
+                  className="text-zinc-600 dark:text-zinc-200"
+                >
+                  Unread
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            <Separator />
+            <TabsContent value="all" className="m-0">
+              <ReportList reports={data} />
+            </TabsContent>
+            <TabsContent value="unread" className="m-0">
+              <ReportList reports={data} />
+            </TabsContent>
+          </Tabs> */}
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel>
+          <ReportDisplay report={singleComplaint} />
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </TooltipProvider>
   );
 }
 

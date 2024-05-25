@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllComplaint } from "../../services/complaint";
-import { getUsers } from "../../services/user";
-import Spinner from "../../ui/components/Spinner";
+import { getAllComplaint } from "@/services/complaint";
+import { getUsers } from "@/services/user";
+import Spinner from "@/components/Spinner";
 
 function Dashboard() {
   const { data: complaints, isLoading } = useQuery({
