@@ -1,40 +1,52 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllComplaint } from "@/services/complaint";
+import { getAllComplaint, getAllComplaintType } from "@/services/complaint";
+import { getAllDepartment } from "@/services/department";
+import { getDepartmentsReport } from "@/services/report";
 import { getUsers } from "@/services/user";
 import Spinner from "@/components/Spinner";
+import ReportTable from "@/components/ReportTable";
+import ReportDepartmentTable from "@/components/ReportDepartmentTable";
+import ReportTotalEachDepartment from "@/components/ReportTotalEachDepartment";
 
 function Dashboard() {
   const { data: complaints, isLoading } = useQuery({
     queryKey: ["allComplaints"],
     queryFn: getAllComplaint,
   });
+  const { data: complaintTypes, isLoading: complaintTypeLoading } = useQuery({
+    queryKey: ["getAllComplaintTypeKey"],
+    queryFn: getAllComplaintType,
+  });
   const { data: users, isLoading: userLoading } = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,
   });
-  if (isLoading || userLoading) {
+  const { data: departments, isLoading: departmentLoading } = useQuery({
+    queryKey: ["departments"],
+    queryFn: getAllDepartment,
+  });
+  const { data: reportDepartments, isLoading: reportDepartmentLoading } =
+    useQuery({
+      queryKey: ["reportDepartments"],
+      queryFn: getDepartmentsReport,
+    });
+  if (
+    isLoading ||
+    userLoading ||
+    complaintTypeLoading ||
+    reportDepartmentLoading
+  ) {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 xl:gap-10">
-        <div className="w-full bg-white border border-gray-200 shadow rounded-xl p-10">
-          <h2 className="text-2xl font-semibold mb-4">Total Report</h2>
-          <p className="text-2xl font-semibold">
-            {complaints?.data.data.length}
-          </p>
+    <div className="p-4 space-y-4">
+      <ReportDepartmentTable list={reportDepartments} />
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="w-full">
+          <ReportTable list={complaintTypes} />
         </div>
-        <div className="w-full bg-white border border-gray-200 shadow rounded-xl p-10">
-          <h2 className="text-2xl font-semibold mb-4">Total User</h2>
-          <p className="text-2xl font-semibold">{users?.data.data.length}</p>
-        </div>
-        <div className="w-full bg-white border border-gray-200 shadow rounded-xl p-10">
-          <h2 className="text-2xl font-semibold mb-4">Total </h2>
-          <p className="text-2xl font-semibold">9</p>
-        </div>
-        <div className="w-full bg-white border border-gray-200 shadow rounded-xl p-10">
-          <h2 className="text-2xl font-semibold mb-4">Total User</h2>
-          <p className="text-2xl font-semibold">9</p>
+        <div className="w-full">
+          <ReportTotalEachDepartment list={complaintTypes} />
         </div>
       </div>
     </div>

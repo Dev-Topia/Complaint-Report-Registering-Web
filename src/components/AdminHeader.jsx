@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link, NavLink } from "react-router-dom";
 import { signOutAccount } from "@/services/auth";
 import { Users, LayoutDashboard, Bookmark, LandPlot, Menu } from "lucide-react";
 import {
@@ -32,7 +32,7 @@ function Header() {
     }
   };
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 p-4 lg:h-[60px] bg-white">
+    <header className="flex md:hidden h-14 items-center gap-4 border-b bg-muted/40 p-4 lg:h-[60px] bg-white">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
@@ -40,43 +40,64 @@ function Header() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col">
-          <nav className="grid gap-2 text-lg font-medium">
+        <SheetContent
+          side="left"
+          className="flex flex-col max-w-[250px] sm:w-[250px]"
+        >
+          <div className="mx-auto">
             <Link
               to="/"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <img src={Logo} alt="logo" width={150} height={50} />
+              <img src={Logo} alt="logo" width={75} height={50} />
               <span className="sr-only">Tarang</span>
             </Link>
-            <Link
+          </div>
+          <nav className="grid gap-2 text-lg font-medium">
+            <NavLink
               to="/"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "mx-[-0.65refm] flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-black"
+                  : "bg-[#f5f5f5] flex items-center gap-3 rounded-lg px-3 py-2";
+              }}
             >
-              <LayoutDashboard className="h-5 w-5" />
+              <LayoutDashboard className="h-4 w-4" />
               Dashboard
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/report"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "mx-[-0.65refm] flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-black"
+                  : "bg-[#f5f5f5] flex items-center gap-3 rounded-lg px-3 py-2";
+              }}
             >
-              <LandPlot className="h-5 w-5" />
+              <LandPlot className="h-4 w-4" />
               Report
-            </Link>
-            <Link
-              to="/setting"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-            >
-              <Bookmark className="h-5 w-5" />
-              Setting
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/user"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "mx-[-0.65refm] flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-black"
+                  : "bg-[#f5f5f5] flex items-center gap-3 rounded-lg px-3 py-2";
+              }}
             >
-              <Users className="h-5 w-5" />
+              <Bookmark className="h-4 w-4" />
               User
-            </Link>
+            </NavLink>
+            <NavLink
+              to="/setting"
+              className={({ isActive }) => {
+                return !isActive
+                  ? "mx-[-0.65refm] flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-black"
+                  : "bg-[#f5f5f5] flex items-center gap-3 rounded-lg px-3 py-2";
+              }}
+            >
+              <Users className="h-4 w-4" />
+              Setting
+            </NavLink>
           </nav>
         </SheetContent>
       </Sheet>

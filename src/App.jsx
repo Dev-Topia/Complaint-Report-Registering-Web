@@ -7,7 +7,7 @@ import AppLayout from "./components/AppLayout";
 import RegisterForm from "./pages/user/RegisterForm";
 import AdminLayout from "./components/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
-import AdminReport from "./pages/admin/AdminReport";
+import Report from "./pages/admin/Report";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import ForgetPassword from "./pages/auth/ForgetPassword";
@@ -45,7 +45,7 @@ function App() {
             {role === "Admin" ? (
               <Route path="/" element={<AdminLayout />}>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/report" element={<AdminReport />} />
+                <Route path="/report" element={<Report />} />
                 <Route path="/setting" element={<Setting />} />
                 <Route path="/user" element={<User />} />
               </Route>

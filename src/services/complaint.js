@@ -7,8 +7,8 @@ import {
   deleteObject,
 } from "firebase/storage";
 
-const apiDomain = "https://api.devtopia.one";
-// const apiDomain = "http://localhost:5023";
+// const apiDomain = "https://api.devtopia.one";
+const apiDomain = "http://localhost:5023";
 
 export const createComplaint = async (complaint, file) => {
   try {
@@ -39,7 +39,7 @@ export const createComplaint = async (complaint, file) => {
     return response;
   } catch (error) {
     console.error(error);
-    return error.response;
+    return error;
   }
 };
 

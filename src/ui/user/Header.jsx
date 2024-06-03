@@ -65,7 +65,7 @@ function Header() {
                 className="w-full rounded-lg"
                 variant="destructive"
               >
-                Logout
+                Sign Out
               </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>

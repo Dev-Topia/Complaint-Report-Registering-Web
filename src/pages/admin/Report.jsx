@@ -14,7 +14,7 @@ import ReportList from "@/components/ReportList";
 import AppContext from "../../contexts/AppContext";
 import Spinner from "../../components/Spinner";
 
-function AdminReport() {
+function Report() {
   const { singleComplaint } = useContext(AppContext);
   const { data, isLoading } = useQuery({
     queryKey: ["getAllComplaint"],
@@ -67,4 +67,4 @@ function AdminReport() {
   );
 }
 
-export default AdminReport;
+export default Report;
