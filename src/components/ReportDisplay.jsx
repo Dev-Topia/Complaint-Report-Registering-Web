@@ -38,7 +38,7 @@ function ReportDisplay({ report }) {
             </TooltipTrigger>
             <TooltipContent>Archive</TooltipContent>
           </Tooltip>
-          <Tooltip>
+          {/* <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon">
                 <ArchiveX className="h-4 w-4" />
@@ -55,9 +55,9 @@ function ReportDisplay({ report }) {
               </Button>
             </TooltipTrigger>
             <TooltipContent>Move to trash</TooltipContent>
-          </Tooltip>
+          </Tooltip> */}
         </div>
-        <div className="ml-auto flex items-center gap-2">
+        {/* <div className="ml-auto flex items-center gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -85,7 +85,7 @@ function ReportDisplay({ report }) {
             </TooltipTrigger>
             <TooltipContent>Forward</TooltipContent>
           </Tooltip>
-        </div>
+        </div> */}
         <Separator orientation="vertical" className="mx-2 h-6" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -96,9 +96,6 @@ function ReportDisplay({ report }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>Mark as unread</DropdownMenuItem>
-            <DropdownMenuItem>Star thread</DropdownMenuItem>
-            <DropdownMenuItem>Add label</DropdownMenuItem>
-            <DropdownMenuItem>Mute thread</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -133,24 +130,26 @@ function ReportDisplay({ report }) {
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 space-y-4 text-sm">
             {report.description}
-            {isImage && (
-              <a href={report.fileUrl} target="_blank">
-                <img src={report.fileUrl} alt="File" className="w-72" />
-              </a>
-            )}
-            {isPdf && (
-              <a
-                href={report.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-72 relative block overflow-hidden"
-              >
-                <span className="absolute inset-0"></span>
-                <object data={report.fileUrl} type="application/pdf">
-                  <embed src={report.fileUrl} type="application/pdf" />
-                </object>
-              </a>
-            )}
+            <div className="mt-4">
+              {isImage && (
+                <a href={report.fileUrl} target="_blank">
+                  <img src={report.fileUrl} alt="File" className="w-72" />
+                </a>
+              )}
+              {isPdf && (
+                <a
+                  href={report.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-72 relative block overflow-hidden"
+                >
+                  <span className="absolute inset-0"></span>
+                  <object data={report.fileUrl} type="application/pdf">
+                    <embed src={report.fileUrl} type="application/pdf" />
+                  </object>
+                </a>
+              )}
+            </div>
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">
