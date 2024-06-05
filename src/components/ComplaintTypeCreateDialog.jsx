@@ -19,12 +19,58 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Spinner from "./Spinner";
+import {createComplaintType} from "@/services/complaint.js";
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 3000));
 
 function ComplaintTypeCreateDialog() {
   const [open, setOpen] = useState(false);
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [inputData, setInputData] = useState("");
+  const onChange = (e) => {
+    setInputData(e.target.value);
+    console.log(e.target.value)
+    // e.preventDefault();
+    // setInputData((prevState) => ({
+    //   ...prevState,
+    //   [e.target.id]: e.target.value,
+    //   console.log(e.target.value)
+    // }));
+  }
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (inputData === "") {
+      setAlertMessage("Please fill in the field");
+      setOpenAlertDialog(true);
+      setLoading(false);
+      return;
+    }
+    const res = await createComplaintType(inputData);
+    if (res.status === 200) {
+      setOpen(true);
+      setAlertMessage(res.data?.message);
+      wait().then(() => setOpen(false));
+    } else {
+      setOpen(true);
+      setAlertMessage(res.message);
+      wait().then(() => setOpen(false));
+    }
+    setLoading(false);
+
+    // try {
+    //   await createComplaintType({ complaintType: inputData });
+    //   setAlertMessage("Complaint type created successfully");
+    // } catch (error) {
+    //   setAlertMessage("Failed to create complaint type");
+    // } finally {
+    //   setOpenAlertDialog(true);
+    //   setLoading(false);
+    // }
+  }
+
   return (
     <>
       <AlertDialog open={openAlertDialog} onOpenChange={setOpenAlertDialog}>
@@ -56,11 +102,11 @@ function ComplaintTypeCreateDialog() {
               <div>
                 <div className="flex flex-col gap-4">
                   <Label>Name</Label>
-                  <Input />
+                  <Input id="ComplaintType" onChange={onChange}/>
                 </div>
               </div>
               <DialogFooter>
-                <Button className="bg-blue-500 hover:bg-blue-700">Save</Button>
+                <Button className="bg-blue-500 hover:bg-blue-700" type="submit" onSubmit={onSubmit}>Save</Button>
               </DialogFooter>
             </>
           )}

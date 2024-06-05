@@ -90,6 +90,26 @@ export const getAllComplaint = async () => {
   }
 };
 
+export const createComplaintType = async (complaintType) => {
+  try {
+    const response = await axios.post(
+        `${apiDomain}/api/Complaint/register-complaint-type`,
+        complaintType,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          withCredentials: true,
+        }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+}
+
 export const getAllComplaintType = async () => {
   try {
     const response = await axios.get(
@@ -195,3 +215,4 @@ export const deleteFromFirebase = async (complaintId, fileUrl) => {
   const ImageRef = ref(storage, filePath);
   await deleteObject(ImageRef);
 };
+
