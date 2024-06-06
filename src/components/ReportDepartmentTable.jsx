@@ -35,10 +35,10 @@ function ReportDepartmentTable({ list }) {
           <TableBody>
             {list.data.map((department, index) => (
               <TableRow key={index}>
+                <TableCell>{department.departmentId}</TableCell>
                 <TableCell className="font-medium">
-                  {department.departmentId}
+                  {department.deparmentName}
                 </TableCell>
-                <TableCell>{department.deparmentName}</TableCell>
                 <TableCell className="text-center">
                   {department.gradingAndAssessmentCount}
                 </TableCell>

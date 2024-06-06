@@ -20,3 +20,39 @@ export const getDepartmentsReport = async () => {
     return error.response;
   }
 };
+
+export const getTotalComplaintByCategory = async () => {
+  try {
+    const response = await axios.get(
+      `${apiDomain}/api/Report/get-categories-total-complaint`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error.response);
+    return error.response;
+  }
+};
+
+export const getTotalComplaintByDepartment = async () => {
+  try {
+    const response = await axios.get(
+      `${apiDomain}/api/Report/get-departments-total-complaint`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error.response);
+    return error.response;
+  }
+};

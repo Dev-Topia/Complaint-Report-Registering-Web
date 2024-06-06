@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllComplaint, getAllComplaintType } from "@/services/complaint";
 import { getAllDepartment } from "@/services/department";
-import { getDepartmentsReport } from "@/services/report";
+import {
+  getDepartmentsReport,
+  getTotalComplaintByCategory,
+  getTotalComplaintByDepartment,
+} from "@/services/report";
 import { getUsers } from "@/services/user";
 import Spinner from "@/components/Spinner";
 import ReportTable from "@/components/ReportTable";
@@ -30,11 +34,27 @@ function Dashboard() {
       queryKey: ["reportDepartments"],
       queryFn: getDepartmentsReport,
     });
+  const {
+    data: reportComplaintByCategory,
+    isLoading: reportComplaintByCategoryLoading,
+  } = useQuery({
+    queryKey: ["reportComplaintByCategory"],
+    queryFn: getTotalComplaintByCategory,
+  });
+  const {
+    data: reportComplaintByDepartment,
+    isLoading: reportComplaintByDepartmentLoading,
+  } = useQuery({
+    queryKey: ["reportComplaintByDepartment"],
+    queryFn: getTotalComplaintByDepartment,
+  });
   if (
     isLoading ||
     userLoading ||
     complaintTypeLoading ||
-    reportDepartmentLoading
+    reportDepartmentLoading ||
+    reportComplaintByCategoryLoading ||
+    reportComplaintByDepartmentLoading
   ) {
     return <Spinner fullScreenSpinner={true} />;
   }
@@ -43,10 +63,10 @@ function Dashboard() {
       <ReportDepartmentTable list={reportDepartments} />
       <div className="flex flex-col md:flex-row gap-4">
         <div className="w-full">
-          <ReportTable list={complaintTypes} />
+          <ReportTable list={reportComplaintByCategory} />
         </div>
         <div className="w-full">
-          <ReportTotalEachDepartment list={complaintTypes} />
+          <ReportTotalEachDepartment list={reportComplaintByDepartment} />
         </div>
       </div>
     </div>
