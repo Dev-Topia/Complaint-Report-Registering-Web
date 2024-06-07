@@ -66,7 +66,7 @@ function ComplaintTypeTable() {
                       <TableCell>
                         <div className="flex gap-2">
                           <ComplaintTypeEditDialog />
-                          <ComplaintTypeDeleteDialog />
+                          <ComplaintTypeDeleteDialog complaint={complaintTypes}/>
                         </div>
                       </TableCell>
                     </TableRow>

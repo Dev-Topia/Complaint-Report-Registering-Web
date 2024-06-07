@@ -130,6 +130,7 @@ export const getAllComplaintType = async () => {
   }
 };
 
+
 export const deleteComplaint = async (complaintId, fileUrl) => {
   try {
     await deleteFromFirebase(complaintId, fileUrl);

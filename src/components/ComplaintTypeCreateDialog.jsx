@@ -31,12 +31,6 @@ function ComplaintTypeCreateDialog() {
   const [inputData, setInputData] = useState("");
   const onChange = (e) => {
     setInputData(e.target.value);
-    // e.preventDefault();
-    // setInputData((prevState) => ({
-    //   ...prevState,
-    //   [e.target.id]: e.target.value,
-    //   console.log(e.target.value)
-    // }));
   };
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -58,16 +52,6 @@ function ComplaintTypeCreateDialog() {
       wait().then(() => setOpenAlertDialog(false));
     }
     setLoading(false);
-
-    // try {
-    //   await createComplaintType({ complaintType: inputData });
-    //   setAlertMessage("Complaint type created successfully");
-    // } catch (error) {
-    //   setAlertMessage("Failed to create complaint type");
-    // } finally {
-    //   setOpenAlertDialog(true);
-    //   setLoading(false);
-    // }
   };
 
   return (
@@ -98,7 +82,6 @@ function ComplaintTypeCreateDialog() {
               <DialogHeader>
                 <DialogTitle>Create complaint type</DialogTitle>
               </DialogHeader>
-              {/* <form onSubmit={onSubmit}> */}
               <div>
                 <div className="flex flex-col gap-4">
                   <Label>Type Name</Label>
@@ -119,7 +102,6 @@ function ComplaintTypeCreateDialog() {
                   Save
                 </Button>
               </DialogFooter>
-              {/* </form> */}
             </>
           )}
         </DialogContent>
