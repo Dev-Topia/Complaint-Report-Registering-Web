@@ -13,7 +13,7 @@ const apiDomain = "http://localhost:5023";
 export const createComplaint = async (complaint, file) => {
   try {
     const response = await axios.post(
-      `${apiDomain}/api/Complaint/register-complaint`,
+      `${apiDomain}/api/complaint/register-complaint`,
       { ...complaint, fileUrl: "" },
       {
         headers: {
@@ -26,7 +26,7 @@ export const createComplaint = async (complaint, file) => {
     const complaintId = response.data.complaintId;
     const fileUrlToUpload = await uploadToFirebase(file, complaintId);
     await axios.put(
-      `${apiDomain}/api/Complaint/update-complaint/${complaintId}`,
+      `${apiDomain}/api/complaint/update-complaint/${complaintId}`,
       { ...complaint, fileUrl: fileUrlToUpload },
       {
         headers: {
@@ -55,7 +55,7 @@ export const createComplaint = async (complaint, file) => {
 export const getSingleComplaint = async (id) => {
   try {
     const response = await axios.get(
-      `${apiDomain}/api/Complaint/get-single-complaint/${id}`,
+      `${apiDomain}/api/complaint/get-single-complaint/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -71,10 +71,10 @@ export const getSingleComplaint = async (id) => {
   }
 };
 
-export const getAllComplaint = async () => {
+export const getAllComplaint = async (pageIndex, pageSize) => {
   try {
     const response = await axios.get(
-      `${apiDomain}/api/Complaint/get-all-complaint`,
+      `${apiDomain}/api/complaint/get-all-complaint?pageIndex=${pageIndex}&pageSize=${pageSize}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export const getAllComplaint = async () => {
 export const getAllComplaintType = async () => {
   try {
     const response = await axios.get(
-      `${apiDomain}/api/Complaint/get-complaint-type`,
+      `${apiDomain}/api/complaint/get-complaint-type`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -113,7 +113,7 @@ export const deleteComplaint = async (complaintId, fileUrl) => {
   try {
     await deleteFromFirebase(complaintId, fileUrl);
     const response = await axios.delete(
-      `${apiDomain}/api/Complaint/delete-complaint/${complaintId}`,
+      `${apiDomain}/api/complaint/delete-complaint/${complaintId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export const deleteComplaint = async (complaintId, fileUrl) => {
 export const deleteComplaintType = async (complaintTypeId) => {
   try {
     const response = await axios.delete(
-      `${apiDomain}/api/Complaint/delete-complaint-type/${complaintTypeId}`,
+      `${apiDomain}/api/complaint/delete-complaint-type/${complaintTypeId}`,
       {
         headers: {
           headers: {

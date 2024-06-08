@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllComplaint, getAllComplaintType } from "@/services/complaint";
 import { getAllDepartment } from "@/services/department";
@@ -41,13 +42,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 import { BookOpenText } from "lucide-react";
 import { Trash } from "lucide-react";
 
 function Dashboard() {
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const { data: complaints, isLoading } = useQuery({
-    queryKey: ["allComplaints"],
-    queryFn: getAllComplaint,
+    queryKey: ["allComplaints", pageIndex, pageSize],
+    queryFn: () => getAllComplaint(pageIndex, pageSize),
   });
   const { data: complaintTypes, isLoading: complaintTypeLoading } = useQuery({
     queryKey: ["getAllComplaintTypeKey"],
@@ -214,9 +227,45 @@ function Dashboard() {
             </TabsContent>
           </Tabs>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex justify-between items-center">
           <div className="text-xs text-muted-foreground">
             Showing <strong>1-10</strong> of <strong>32</strong> complaints
+          </div>
+          <div>
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      setPageIndex((prevPageIndex) =>
+                        Math.max(1, prevPageIndex - 1)
+                      )
+                    }
+                  />
+                </PaginationItem>
+                {Array.from({ length: complaints.data.totalPages }).map(
+                  (_, index) => (
+                    <PaginationItem key={index}>
+                      <PaginationLink
+                        onClick={() => setPageIndex(index + 1)}
+                        isActive={pageIndex === index + 1}
+                      >
+                        {index + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                )}
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() =>
+                      setPageIndex((prevPageIndex) =>
+                        Math.min(complaints.data.totalPages, prevPageIndex + 1)
+                      )
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </CardFooter>
       </Card>
