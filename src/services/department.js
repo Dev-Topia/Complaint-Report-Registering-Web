@@ -21,11 +21,11 @@ export const getAllDepartment = async () => {
   }
 };
 
-export const createDepartment = async (department) => {
+export const createDepartment = async (departmentName) => {
   try {
     const response = await axios.post(
       `${apiDomain}/api/Department/create-department`,
-      department,
+        {departmentName: departmentName},
       {
         headers: {
           "Content-Type": "application/json",
