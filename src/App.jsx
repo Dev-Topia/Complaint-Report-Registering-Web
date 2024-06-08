@@ -17,6 +17,7 @@ import Profile from "./pages/user/Profile";
 import Setting from "./pages/admin/Setting";
 import User from "./pages/admin/User";
 import Spinner from "./components/Spinner";
+import PendingVerification from "./pages/auth/PendingVerification";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,10 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route
+            path="/pending-verification"
+            element={<PendingVerification />}
+          />
         </Routes>
       </Router>
     </QueryClientProvider>

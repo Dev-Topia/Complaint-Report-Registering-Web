@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 
 function ReportTable({ list }) {
+  console.log(list);
   return (
     <Card>
       <CardHeader>
@@ -29,9 +30,7 @@ function ReportTable({ list }) {
                 <TableCell className="w-[100px]">
                   {report.complaintTypeId}
                 </TableCell>
-                <TableCell className="font-medium">
-                  {report.typeName}
-                </TableCell>
+                <TableCell className="font-medium">{report.typeName}</TableCell>
                 <TableCell className="text-center">{report.count}</TableCell>
               </TableRow>
             ))}
