@@ -156,14 +156,12 @@ export const deleteComplaintType = async (complaintTypeId) => {
     const response = await axios.delete(
       `${apiDomain}/api/Complaint/delete-complaint-type/${complaintTypeId}`,
       {
-        headers: {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
           withCredentials: true,
-        },
-      }
+        }
     );
     return response;
   } catch (error) {

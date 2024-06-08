@@ -27,7 +27,7 @@ function ComplaintTypeDeleteDialog({ complaint }) {
     const res = await deleteComplaintType(complaint.complaintTypeId);
     if (res.status === 200) {
       setOpenAlertDialog(true);
-      setAlertMessage(res.data.msg);
+      setAlertMessage(res.data?.msg);
       wait().then(() => setOpenAlertDialog(false));
     } else {
       setOpenAlertDialog(true);
