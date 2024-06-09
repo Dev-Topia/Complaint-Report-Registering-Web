@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect, useContext, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { getUserDataFromToken } from "./services/auth";
+import { getUserDataFromToken, getUserProfile } from "./services/auth";
 import AppContext from "./contexts/AppContext";
 import AppLayout from "./components/AppLayout";
 import RegisterForm from "./pages/user/RegisterForm";
@@ -30,6 +30,8 @@ function App() {
       const userData = await getUserDataFromToken();
       if (userData.status !== 400) {
         dispatch({ type: "SET_USER_DATA", payload: { ...userData.data } });
+        const response = await getUserProfile(userData.data.userId);
+        dispatch({ type: "SET_USER", payload: response });
       }
       setLoading(false);
     };

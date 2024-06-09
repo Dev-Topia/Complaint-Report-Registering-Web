@@ -43,14 +43,42 @@ export const createComplaint = async (complaint, file) => {
   }
 };
 
-// export const updateComplaint = async (complaintId) => {
-//   try {
-//     const response = await axios.put();
-//   } catch (error) {
-//     console.error(error);
-//     return error.response;
-//   }
-// };
+export const updateComplaint = async (complaintId, updateComplaint) => {
+  try {
+    const response = await axios.put(
+      `${apiDomain}/api/complaint/update-complaint/${complaintId}`,
+      updateComplaint,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+};
+
+export const getAllStatus = async () => {
+  try {
+    const response = await axios.get(
+      `${apiDomain}/api/complaint/get-all-status`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+};
 
 export const getSingleComplaint = async (id) => {
   try {
@@ -78,6 +106,28 @@ export const getAllComplaint = async (pageIndex, pageSize) => {
       {
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+};
+
+export const getComplaintByDepartment = async (
+  departmentId,
+  pageIndex,
+  pageSize
+) => {
+  try {
+    const response = await axios.get(
+      `${apiDomain}/api/complaint/filter-complaint-by-department?departmentId=${departmentId}&pageIndex=${pageIndex}&pageSize=${pageSize}`,
+      {
+        headers: {
           Accept: "application/json",
         },
         withCredentials: true,

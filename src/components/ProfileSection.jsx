@@ -18,6 +18,7 @@ function ProfileSection() {
     queryKey: ["profiles"],
     queryFn: async () => getUserProfile(userId),
   });
+  console.log(data);
   const [editMode, setEditMode] = useState(true);
   const [inputData, setInputData] = useState({
     firstName: "",
@@ -193,13 +194,13 @@ function ProfileSection() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="Last Name">Last Name</Label>
+                  <Label htmlFor="Last Name">Department</Label>
                   <Input
                     type="text"
                     id="lastName"
-                    defaultValue={inputData.lastName}
+                    defaultValue={data?.deparment.deparmentName}
                     onChange={onChange}
-                    disabled={editMode}
+                    disabled
                   />
                 </div>
                 <div className="space-y-2">
@@ -209,7 +210,7 @@ function ProfileSection() {
                     id="email"
                     defaultValue={data?.email}
                     onChange={onChange}
-                    disabled={editMode}
+                    disabled
                   />
                 </div>
                 <div className="space-y-2">

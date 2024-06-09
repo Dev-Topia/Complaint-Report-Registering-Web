@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getAllComplaint, getAllComplaintType } from "@/services/complaint";
+import {
+  getAllComplaint,
+  getAllComplaintType,
+  getComplaintByDepartment,
+} from "@/services/complaint";
 import { getAllDepartment } from "@/services/department";
 import {
   getDepartmentsReport,
@@ -54,28 +58,34 @@ import {
 
 import { BookOpenText } from "lucide-react";
 import { Trash } from "lucide-react";
+import ComplaintViewDialog from "@/components/ComplaintViewDialog";
 
 function Dashboard() {
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const { data: complaints, isLoading } = useQuery({
-    queryKey: ["allComplaints", pageIndex, pageSize],
-    queryFn: () => getAllComplaint(pageIndex, pageSize),
-  });
-  const { data: complaintTypes, isLoading: complaintTypeLoading } = useQuery({
-    queryKey: ["getAllComplaintTypeKey"],
-    queryFn: getAllComplaintType,
-  });
-  const { data: users, isLoading: userLoading } = useQuery({
-    queryKey: ["users"],
-    queryFn: getUsers,
-  });
+  const [currentDepartmentId, setCurrentDepartmentId] = useState(5);
   const { data: departments, isLoading: departmentLoading } = useQuery({
     queryKey: ["departments"],
     queryFn: getAllDepartment,
   });
-  if (isLoading || userLoading || complaintTypeLoading || departmentLoading) {
-    return <Spinner fullScreenSpinner={true} />;
+  const { data: complaints, isLoading } = useQuery({
+    queryKey: ["allComplaints", currentDepartmentId, pageIndex, pageSize],
+    queryFn: () =>
+      getComplaintByDepartment(currentDepartmentId, pageIndex, pageSize),
+  });
+  const getAbbreviation = (name) => {
+    return name
+      .split(" ")
+      .filter((word) => /[a-zA-Z0-9]/.test(word))
+      .map((word) => word.charAt(0).toUpperCase())
+      .join("");
+  };
+  if (departmentLoading) {
+    return (
+      <>
+        <Spinner fullScreenSpinner={true} />
+      </>
+    );
   }
   return (
     <div className="p-4 space-y-4">
@@ -88,186 +98,159 @@ function Dashboard() {
             </div>
           </div>
         </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="unRead">
-            <div className="flex justify-between">
-              <TabsList>
-                <TabsTrigger value="unRead">Unread</TabsTrigger>
-                <TabsTrigger value="read">Read</TabsTrigger>
-              </TabsList>
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Filter" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="apple">Apple</SelectItem>
-                    <SelectItem value="banana">Banana</SelectItem>
-                    <SelectItem value="blueberry">Blueberry</SelectItem>
-                    <SelectItem value="grapes">Grapes</SelectItem>
-                    <SelectItem value="pineapple">Pineapple</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <TabsContent value="unRead">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="hidden w-[100px] sm:table-cell">
-                      ID
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      <Select>
-                        <SelectTrigger className="w-[150px] border-none">
-                          <SelectValue placeholder="Department" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {departments.data.map((department) => (
-                              <SelectItem
-                                key={department.departmentId}
-                                value={department.departmentId}
-                              >
-                                {department.departmentName}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </TableHead>
-                    <TableHead>
-                      <Select>
-                        <SelectTrigger className="w-[100px] border-none">
-                          <SelectValue placeholder="Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {complaintTypes.data.data.map((type) => (
-                              <SelectItem
-                                key={type.complaintTypeId}
-                                value={type.complaintTypeId}
-                              >
-                                {type.complaintType}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      <Select>
-                        <SelectTrigger className="w-[75px] border-none p-0">
-                          <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Reporter
-                    </TableHead>
-                    <TableHead>Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {complaints.data.data.length !== 0 ? (
-                    complaints.data.data.map((complaint) => (
-                      <TableRow key={complaint.complaintId}>
-                        <TableCell className="hidden sm:table-cell">
-                          {complaint.complaintId}
-                        </TableCell>
-                        <TableCell className="font-medium hidden md:table-cell">
-                          {complaint.department}
-                        </TableCell>
-                        <TableCell>{complaint.complaintType}</TableCell>
-                        <TableCell>
-                          {format(new Date(complaint.createdAt), "PPpp")}
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          <Badge variant="outline">{complaint.status}</Badge>
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          {complaint.user.firstName} {complaint.user.lastName}
-                        </TableCell>
-                        <TableCell>
-                          <div className="space-x-2">
-                            <Button
-                              variant="outline"
-                              className="bg-blue-500 text-white"
-                            >
-                              <BookOpenText className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              className="bg-red-500 text-white"
-                            >
-                              <Trash className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <>No Complaint</>
-                  )}
-                </TableBody>
-              </Table>
-            </TabsContent>
-            <TabsContent value="password">
-              Change your password here.
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-        <CardFooter className="flex justify-between items-center">
-          <div className="text-xs text-muted-foreground">
-            Showing <strong>1-10</strong> of <strong>32</strong> complaints
+        {isLoading || departmentLoading ? (
+          <div className="flex justify-center px-10 pb-10">
+            <Spinner />
           </div>
-          <div>
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() =>
-                      setPageIndex((prevPageIndex) =>
-                        Math.max(1, prevPageIndex - 1)
-                      )
-                    }
-                  />
-                </PaginationItem>
-                {Array.from({ length: complaints.data.totalPages }).map(
-                  (_, index) => (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        onClick={() => setPageIndex(index + 1)}
-                        isActive={pageIndex === index + 1}
+        ) : (
+          <>
+            <CardContent>
+              <Tabs defaultValue={currentDepartmentId.toString()}>
+                <div className="flex justify-between">
+                  <TabsList>
+                    {departments.data.map((department) => (
+                      <TabsTrigger
+                        key={department.departmentId}
+                        value={department.departmentId.toString()}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentDepartmentId(department.departmentId);
+                        }}
                       >
-                        {index + 1}
-                      </PaginationLink>
+                        {getAbbreviation(department.departmentName)}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                  <Select>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Filter" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="apple">Apple</SelectItem>
+                        <SelectItem value="banana">Banana</SelectItem>
+                        <SelectItem value="blueberry">Blueberry</SelectItem>
+                        <SelectItem value="grapes">Grapes</SelectItem>
+                        <SelectItem value="pineapple">Pineapple</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <TabsContent value={currentDepartmentId.toString()}>
+                  {complaints.data.data.length !== 0 ? (
+                    <>
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="hidden w-[100px] sm:table-cell">
+                              ID
+                            </TableHead>
+                            {/* <TableHead className="hidden md:table-cell">
+                              Department
+                            </TableHead> */}
+                            <TableHead>Type</TableHead>
+                            <TableHead>Date</TableHead>
+                            <TableHead className="hidden md:table-cell">
+                              Status
+                            </TableHead>
+                            <TableHead className="hidden md:table-cell">
+                              Reporter
+                            </TableHead>
+                            <TableHead>Action</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {complaints.data.data.map((complaint) => (
+                            <TableRow key={complaint.complaintId}>
+                              <TableCell className="hidden sm:table-cell">
+                                {complaint.complaintId}
+                              </TableCell>
+                              {/* <TableCell className="font-medium hidden md:table-cell">
+                                {complaint.department.deparmentName}
+                              </TableCell> */}
+                              <TableCell>{complaint.complaintType}</TableCell>
+                              <TableCell>
+                                {format(new Date(complaint.createdAt), "PPpp")}
+                              </TableCell>
+                              <TableCell className="hidden md:table-cell">
+                                <Badge variant="outline">
+                                  {complaint.status.status}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="hidden md:table-cell">
+                                {complaint.user.firstName}{" "}
+                                {complaint.user.lastName}
+                              </TableCell>
+                              <TableCell>
+                                <div className="space-x-2">
+                                  <ComplaintViewDialog complaint={complaint} />
+                                  <Button
+                                    variant="outline"
+                                    className="bg-red-500 text-white"
+                                  >
+                                    <Trash className="w-4 h-4" />
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </>
+                  ) : (
+                    <div className="flex justify-center px-10 pb-10">
+                      No Complaint
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+            <CardFooter className="flex justify-between items-center">
+              <div className="text-xs text-muted-foreground">
+                Showing <strong>1-10</strong> of <strong>32</strong> complaints
+              </div>
+              <div>
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() =>
+                          setPageIndex((prevPageIndex) =>
+                            Math.max(1, prevPageIndex - 1)
+                          )
+                        }
+                      />
                     </PaginationItem>
-                  )
-                )}
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() =>
-                      setPageIndex((prevPageIndex) =>
-                        Math.min(complaints.data.totalPages, prevPageIndex + 1)
+                    {Array.from({ length: complaints.data.totalPages }).map(
+                      (_, index) => (
+                        <PaginationItem key={index}>
+                          <PaginationLink
+                            onClick={() => setPageIndex(index + 1)}
+                            isActive={pageIndex === index + 1}
+                          >
+                            {index + 1}
+                          </PaginationLink>
+                        </PaginationItem>
                       )
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        </CardFooter>
+                    )}
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() =>
+                          setPageIndex((prevPageIndex) =>
+                            Math.min(
+                              complaints.data.totalPages,
+                              prevPageIndex + 1
+                            )
+                          )
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            </CardFooter>
+          </>
+        )}
       </Card>
     </div>
   );
