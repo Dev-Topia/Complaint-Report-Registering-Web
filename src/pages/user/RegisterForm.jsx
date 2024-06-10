@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createComplaint, getAllComplaintType } from "../../services/complaint";
 import {
@@ -16,7 +16,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
 import {
   Select,
   SelectContent,
@@ -30,10 +29,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import Spinner from "../../components/Spinner";
+import AppContext from "@/contexts/AppContext";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 3000));
 
 function RegisterForm() {
+  const { user } = useContext(AppContext);
   const { data: complaintType, isLoading } = useQuery({
     queryKey: ["getAllComplaintTypeKey"],
     queryFn: getAllComplaintType,
@@ -48,6 +49,7 @@ function RegisterForm() {
     title: "",
     complaintTypeId: 0,
     statusTypeId: 1,
+    departmentId: user.deparment.deparmentId,
     description: "",
     file: "",
   });

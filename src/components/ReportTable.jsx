@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 
 function ReportTable({ list }) {
+  console.log(list);
   return (
     <Card>
       <CardHeader>
@@ -18,19 +19,19 @@ function ReportTable({ list }) {
         <Table className="bg-white">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="w-[100px]">ID</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead className="text-center">Total</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {list.data.data.map((complaintType, index) => (
+            {list.data.map((report, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
+                <TableCell className="w-[100px]">
+                  {report.complaintTypeId}
+                </TableCell>
+                <TableCell className="font-medium">{report.typeName}</TableCell>
+                <TableCell className="text-center">{report.count}</TableCell>
               </TableRow>
             ))}
           </TableBody>

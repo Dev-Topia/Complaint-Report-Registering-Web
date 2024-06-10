@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpAccount } from "../../services/auth";
 import {
@@ -8,6 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import CustomInput from "@/ui/shared/Input";
@@ -16,20 +25,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../../assets/Logo.png";
 import AppContext from "../../contexts/AppContext.jsx";
 import Spinner from "@/components/Spinner";
+import { getAllDepartment } from "@/services/department";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 10000));
 
 function SignUp() {
   const { token } = useContext(AppContext);
+  const { data: departments, isLoading } = useQuery({
+    queryKey: ["allDepartments"],
+    queryFn: getAllDepartment,
+  });
   const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState({
     firstName: "",
     lastName: "",
     role: "User",
+    departmentId: 0,
     email: "",
     password: "",
     confirmPassword: "",
   });
+  console.log(inputData);
   const [errorMessage, setErrorMessage] = useState("");
   const onChange = (e) => {
     e.preventDefault();
@@ -62,7 +78,7 @@ function SignUp() {
       wait().then(() => setErrorMessage(""));
     }
   };
-  if (loading) {
+  if (loading || isLoading) {
     return <Spinner fullScreenSpinner={true} />;
   }
   return (
@@ -118,6 +134,39 @@ function SignUp() {
                   onChange={onChange}
                   placeholder="example@gmail.com"
                 />
+              </div>
+              <div className="space-y-2">
+                <Label>Department</Label>
+                {/* <Input
+                  type="department"
+                  id="department"
+                  onChange={onChange}
+                  placeholder="Department Name"
+                /> */}
+                <Select
+                  onValueChange={(id) => {
+                    setInputData((prevState) => ({
+                      ...prevState,
+                      departmentId: parseInt(id),
+                    }));
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {departments.data.map((department) => (
+                        <SelectItem
+                          key={department.departmentId}
+                          value={department.departmentId.toString()}
+                        >
+                          {department.departmentName}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <CustomInput
                 title="Password"
