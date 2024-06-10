@@ -21,14 +21,33 @@ export const getAllDepartment = async () => {
   }
 };
 
-export const createDepartment = async (department) => {
+export const createDepartment = async (departmentName) => {
   try {
     const response = await axios.post(
       `${apiDomain}/api/Department/create-department`,
-      department,
+        {departmentName: departmentName},
       {
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error.response);
+    return error.response;
+  }
+};
+
+export const deleteDepartment = async (departmentId) => {
+  try {
+    const response = await axios.delete(
+      `${apiDomain}/api/Department/delete-department/${departmentId}`,
+      {
+        headers: {
+            "Content-type": "application/json",
           Accept: "application/json",
         },
         withCredentials: true,

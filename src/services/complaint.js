@@ -133,6 +133,7 @@ export const getComplaintByDepartment = async (
         withCredentials: true,
       }
     );
+    console.log(response);
     return response;
   } catch (error) {
     console.error(error);
@@ -159,6 +160,7 @@ export const getAllComplaintType = async () => {
   }
 };
 
+
 export const deleteComplaint = async (complaintId, fileUrl) => {
   try {
     await deleteFromFirebase(complaintId, fileUrl);
@@ -184,14 +186,12 @@ export const deleteComplaintType = async (complaintTypeId) => {
     const response = await axios.delete(
       `${apiDomain}/api/complaint/delete-complaint-type/${complaintTypeId}`,
       {
-        headers: {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
           withCredentials: true,
-        },
-      }
+        }
     );
     return response;
   } catch (error) {

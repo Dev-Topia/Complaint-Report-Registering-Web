@@ -66,7 +66,7 @@ function DepartmentTable() {
                       <TableCell>
                         <div className="flex gap-2">
                           <DepartmentEditDialog />
-                          <DepartmentDeleteDialog />
+                          <DepartmentDeleteDialog department={department}/>
                         </div>
                       </TableCell>
                     </TableRow>
