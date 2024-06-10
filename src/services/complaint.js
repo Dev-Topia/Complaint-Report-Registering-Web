@@ -118,6 +118,34 @@ export const getAllComplaint = async (pageIndex, pageSize) => {
   }
 };
 
+export const filterComplaint = async (
+  complaintTypeId,
+  statusId,
+  departmentId,
+  pageIndex,
+  pageSize
+) => {
+  try {
+    const response = await axios.get(
+      `${apiDomain}/api/complaint/filter-complaints?complaintTypeId=${complaintTypeId}
+                                                    &statusId=${statusId}
+                                                    &departmentId=${departmentId}
+                                                    &pageIndex=${pageIndex}
+                                                    &pageSize=${pageSize}`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+};
+
 export const getComplaintByDepartment = async (
   departmentId,
   pageIndex,
