@@ -19,12 +19,41 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Spinner from "./Spinner";
+import {createDepartment} from "@/services/department.js";
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 3000));
 
 function DepartmentCreateDialog() {
   const [open, setOpen] = useState(false);
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [inputData, setInputData] = useState("");
+  const onChange = (e) => {
+    setInputData(e.target.value);
+  }
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (inputData === "") {
+      setAlertMessage("Please fill in the field");
+      setOpenAlertDialog(true);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    const res = await createDepartment(inputData);
+    if (res.status === 200) {
+      setOpenAlertDialog(true);
+      setAlertMessage(res.data?.msg);
+      wait().then(() => setOpenAlertDialog(false));
+    } else {
+      setOpenAlertDialog(true);
+      setAlertMessage(res.data.msg);
+      wait().then(() => setOpenAlertDialog(false));
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <AlertDialog open={openAlertDialog} onOpenChange={setOpenAlertDialog}>
@@ -56,11 +85,11 @@ function DepartmentCreateDialog() {
               <div>
                 <div className="flex flex-col gap-4">
                   <Label>Name</Label>
-                  <Input />
+                  <Input onChange={onChange} placeholder="Department Name" id="name" type="text"/>
                 </div>
               </div>
               <DialogFooter>
-                <Button className="bg-blue-500 hover:bg-blue-700">Save</Button>
+                <Button className="bg-blue-500 hover:bg-blue-700" type="submit" onClick={onSubmit}>Save</Button>
               </DialogFooter>
             </>
           )}

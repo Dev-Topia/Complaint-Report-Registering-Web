@@ -13,12 +13,30 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import Spinner from "./Spinner";
+import {deleteDepartment} from "@/services/department.js";
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 3000));
 
 function DepartmentDeleteDialog({ department }) {
   const [open, setOpen] = useState(false);
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const handleDelete = async () => {
+    setLoading(true);
+    const res = await deleteDepartment(department.departmentId);
+    if (res.status === 200) {
+        setOpenAlertDialog(true);
+        setAlertMessage(res.data?.msg);
+        wait().then(() => setOpenAlertDialog(false));
+    } else {
+        setOpenAlertDialog(true);
+        setAlertMessage(res.data.msg);
+        wait().then(() => setOpenAlertDialog(false));
+    }
+    setLoading(false);
+  }
+
   return (
     <>
       <AlertDialog open={openAlertDialog} onOpenChange={setOpenAlertDialog}>
@@ -58,7 +76,7 @@ function DepartmentDeleteDialog({ department }) {
                 <AlertDialogAction asChild>
                   <Button
                     className="bg-red-500 hover:bg-red-700"
-                    // onClick={handleDelete}
+                    onClick={handleDelete}
                   >
                     Continue
                   </Button>
